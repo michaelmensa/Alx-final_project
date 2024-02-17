@@ -1,3 +1,5 @@
+import middleware from '../middlewares/middleware';
+
 const express = require('express');
 
 const router = express.Router();
@@ -22,14 +24,20 @@ router.get('/status', AppController.getStatus);
 // get /stats
 router.get('/stats', AppController.getStats);
 
+// get /dashboard
+router.get('/dashboard', middleware.requireLogin, ClinicController.getClinic);
+
 // post requests
-// post /clinics
-router.post('/clinics', ClinicController.postNew);
+// post /auth/register
+router.post('/auth/register', ClinicController.postNew);
 
 // post /employees
 router.post('/employees', EmpController.postNew);
 
 // post /patients
 router.post('/patients', PatientController.postNew);
+
+// post /auth/login
+router.post('/auth/login', ClinicController.postClinic);
 
 module.exports = router;
