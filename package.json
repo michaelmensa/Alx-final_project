@@ -19,6 +19,7 @@
     "btoa-atob": "^0.1.2",
     "bull": "^3.16.0",
     "chai-http": "^4.3.0",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.1",
     "express": "^4.17.1",
     "image-thumbnail": "^1.0.10",
