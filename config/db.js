@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb';
+import utils from '../utils/utils';
 
 class DBClient {
   constructor() {
@@ -38,6 +39,23 @@ class DBClient {
   async nbPatients() {
     const count = this.db.collection('patients').countDocuments();
     return count;
+  }
+
+  // async findClinic(key) checks if clinic in db
+  async findClinic(email) {
+    const clinic = await this.db.collection('clinics').findOne({ email });
+    return clinic || null;
+  }
+
+  // async createClinic(name, email, password) creates new clinic
+  async createClinic(name, email, password) {
+    const hashedPassword = utils.hashPassword(password);
+    await this.db.collection('clinics').insertOne({ name, email, password: hashedPassword });
+  }
+
+  // async deleteAllFiles() to delete all files
+  async deleteAllClinics() {
+    await this.db.collection('clinics').deleteMany({});
   }
 }
 
