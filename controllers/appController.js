@@ -15,6 +15,7 @@ const appController = {
       const countClinics = await dbClient.nbClinics();
       const countEmployees = await dbClient.nbEmployees();
       const countPatients = await dbClient.nbPatients();
+      // await dbClient.deleteAllClinics();
       res.status(200).json({
         clinics: countClinics,
         employees: countEmployees,
