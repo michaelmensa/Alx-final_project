@@ -24,7 +24,7 @@ const clinicController = {
       if (!existingClinic) {
         await dbClient.createClinic(name, email, password);
         const newClinic = await dbClient.findClinic(email);
-        console.log(newClinic._id.toString());
+        console.log('New clinic created:', newClinic._id.toString());
         res.status(201).json({ id: newClinic._id.toString(), email: newClinic.email });
       } else {
         res.status(400).json({ error: 'Clinic Already exists' });
