@@ -41,6 +41,7 @@ class DBClient {
     return count;
   }
 
+  // clinic methods
   // async findClinic(key) checks if clinic in db
   async findClinic(email) {
     const clinic = await this.db.collection('clinics').findOne({ email });
@@ -56,6 +57,46 @@ class DBClient {
   // async deleteAllFiles() to delete all files
   async deleteAllClinics() {
     await this.db.collection('clinics').deleteMany({});
+  }
+
+  // employee methods
+  // async findClinic(key) checks if clinic in db
+  async findEmp(email) {
+    const employee = await this.db.collection('employees').findOne({ email });
+    return employee || null;
+  }
+
+  // async createClinic(name, email, password) creates new clinic
+  async createEmp(name, type, email, password) {
+    const hashedPassword = utils.hashPassword(password);
+    await this.db.collection('employees').insertOne({
+      name, type, email, password: hashedPassword,
+    });
+  }
+
+  // async deleteAllFiles() to delete all files
+  async deleteAllEmp() {
+    await this.db.collection('employees').deleteMany({});
+  }
+
+  // patients methods
+  // async findClinic(key) checks if clinic in db
+  async findPatient(firstName) {
+    const patient = await this.db.collection('patients').findOne({ firstName });
+    return patient || null;
+  }
+
+  // async createClinic(name, email, password) creates new clinic
+  async createPatient(firstName, lastName, dob, occupation) {
+    const fullName = `${firstName} ${lastName}`;
+    await this.db.collection('patients').insertOne({
+      firstName, lastName, dob, occupation, fullName,
+    });
+  }
+
+  // async deleteAllFiles() to delete all files
+  async deleteAllPatients() {
+    await this.db.collection('patients').deleteMany({});
   }
 }
 
