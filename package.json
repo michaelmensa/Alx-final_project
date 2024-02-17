@@ -22,6 +22,7 @@
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.1",
     "express": "^4.17.1",
+    "express-session": "^1.18.0",
     "image-thumbnail": "^1.0.10",
     "mime-types": "^2.1.27",
     "mongodb": "^3.5.9",
