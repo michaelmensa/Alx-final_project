@@ -61,7 +61,7 @@ const empController = {
     const employee = await dbClient.findEmpByField('clinicId', clinicId);
     const skip = page * 10;
     const pipeline = [
-      { $match: { type: employee.type, type } },
+      { $match: { type: employee.type } },
       { $skip: skip },
       { $limit: 10 },
     ];
