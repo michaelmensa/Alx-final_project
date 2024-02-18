@@ -63,25 +63,30 @@ const clinicController = {
         return;
       }
       // store clinic session
-      req.session.user = {
+      req.session.clinic = {
         id: clinic._id.toString(),
         name: clinic.name,
       };
       // redirect to /dashboard
-      res.redirect('/api/v1/dashboard');
+      res.redirect('/api/v1/clinic/dashboard');
     } catch (err) {
       res.status(500).json({ error: `${err}` });
     }
   },
 
   getClinic: async (req, res) => {
-    res.send(`Welcome ${req.session.user.name}`);
+    res.send(`Welcome ${req.session.clinic.name}`);
   },
 
   getStats: async (req, res) => {
-    const countEmployees = await dbClient.nbEmployees();
-    const countPatients = await dbClient.nbPatients();
-    res.status(200).json({ Employees: countEmployees, Patients: countPatients });
+    const clinicId = req.session.clinic.id;
+    const matchCondition = { clinicId };
+    const pipeline = [
+      { $match: matchCondition },
+    ];
+    const employees = await dbClient.db.collection('employees').aggregate(pipeline).toArray();
+    const employeeCount = employees.length;
+    res.status(200).json({ Employees: employeeCount });
   },
 };
 
