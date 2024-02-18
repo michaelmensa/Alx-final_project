@@ -77,6 +77,12 @@ const clinicController = {
   getClinic: async (req, res) => {
     res.send(`Welcome ${req.session.user.name}`);
   },
+
+  getStats: async (req, res) => {
+    const countEmployees = await dbClient.nbEmployees();
+    const countPatients = await dbClient.nbPatients();
+    res.status(200).json({ Employees: countEmployees, Patients: countPatients });
+  },
 };
 
 module.exports = clinicController;
