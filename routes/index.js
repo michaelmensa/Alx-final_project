@@ -9,6 +9,17 @@ const ClinicController = require('../controllers/clinicController');
 const EmpController = require('../controllers/empController');
 const PatientController = require('../controllers/patientController');
 
+// router.use('/dashboard') requires clinic login
+router.use('/dashboard', middleware.requireLogin);
+// define routes for /dashboard
+// get /dashboard routes
+router.get('/dashboard', ClinicController.getClinic);
+router.get('/dashboard/stats', ClinicController.getStats);
+router.get('/dashboard/employees/:id', EmpController.getShow);
+router.get('/dashboard/employees/', EmpController.getIndex);
+// post /dashboard/employees
+router.post('/dashboard/employees', EmpController.postNew);
+
 // get /home
 router.get('/', StaticPage.getHome);
 
@@ -24,15 +35,9 @@ router.get('/status', AppController.getStatus);
 // get /stats
 router.get('/stats', AppController.getStats);
 
-// get /dashboard
-router.get('/dashboard', middleware.requireLogin, ClinicController.getClinic);
-
 // post requests
 // post /auth/register
 router.post('/auth/register', ClinicController.postNew);
-
-// post /employees
-router.post('/employees', EmpController.postNew);
 
 // post /patients
 router.post('/patients', PatientController.postNew);
