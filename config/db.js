@@ -66,11 +66,17 @@ class DBClient {
     return employee || null;
   }
 
+  // async findEmpByField(field, value) to find employee
+  async findEmpByField(field, value) {
+    const employee = await this.db.collection('employees').findOne({ [field]: value });
+    return employee || null;
+  }
+
   // async createClinic(name, email, password) creates new clinic
-  async createEmp(name, type, email, password) {
+  async createEmp(name, type, email, password, clinicId) {
     const hashedPassword = utils.hashPassword(password);
     await this.db.collection('employees').insertOne({
-      name, type, email, password: hashedPassword,
+      name, type, email, password: hashedPassword, clinicId,
     });
   }
 
@@ -83,6 +89,12 @@ class DBClient {
   // async findClinic(key) checks if clinic in db
   async findPatient(firstName) {
     const patient = await this.db.collection('patients').findOne({ firstName });
+    return patient || null;
+  }
+
+  // async findEmpByField(field, value) to find employee
+  async findPatientByField(field, value) {
+    const patient = await this.db.colletion('patients').findOne({ [field]: value });
     return patient || null;
   }
 
