@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const bodyParser = require('body-parser');
 const routes = require('../routes/index');
 
@@ -16,6 +17,7 @@ app.use(session({
   secret: 'clinicbasesecretkey',
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: 'mongodb://localhost:27017/clinic_base' }),
 }));
 
 app.use((req, res, next) => {
