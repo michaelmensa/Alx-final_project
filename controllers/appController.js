@@ -31,18 +31,18 @@ const appController = {
   },
 
   getLogIn: (req, res) => {
-    res.send('Clinic LogIn');
+    res.send('Clinic LogIn')
   },
 
   postLogOut: (req, res) => {
-    // Destroy the session to log the user out
+    // Destroy the session to log the clinic out
     req.session.destroy((err) => {
       if (err) {
         console.error('Error logging out:', err);
         res.status(500).json({ error: 'Failed to log out' });
       } else {
         // Redirect the user to the login page or send a success message
-        res.redirect('/api/v1/auth/login'); // Adjust the URL path accordingly
+        res.redirect('/api/v1/auth/login');
       }
     });
   },
