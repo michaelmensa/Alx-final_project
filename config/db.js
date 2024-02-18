@@ -48,6 +48,12 @@ class DBClient {
     return clinic || null;
   }
 
+  // async findClinicByField(field, value) to find employee
+  async findClinicByField(field, value) {
+    const clinic = await this.db.collection('clinics').findOne({ [field]: value });
+    return clinic || null;
+  }
+
   // async createClinic(name, email, password) creates new clinic
   async createClinic(name, email, password) {
     const hashedPassword = utils.hashPassword(password);

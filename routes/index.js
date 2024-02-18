@@ -16,7 +16,7 @@ router.use('/dashboard', middleware.requireLogin);
 router.get('/dashboard', ClinicController.getClinic);
 router.get('/dashboard/stats', ClinicController.getStats);
 router.get('/dashboard/employees/:id', EmpController.getShow);
-router.get('/dashboard/employees/', EmpController.getIndex);
+router.get('/dashboard/employees', EmpController.getIndex);
 // post /dashboard/employees
 router.post('/dashboard/employees', EmpController.postNew);
 

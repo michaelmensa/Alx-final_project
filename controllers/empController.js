@@ -41,27 +41,29 @@ const empController = {
   },
 
   getShow: async (req, res) => {
-    const id = req.params.id || null;
+    // query by type and page number for pagination
+    const clinicName = req.session.user.name;
+    const id = req.params.id;
     const clinicId = req.session.user.id;
-
-    const employee = await dbClient.findEmpByField('clinic_id', clinicId);
-    console.log(employee);
-    if (!employee || id !== employee._id.toString()) {
-      res.status(404).json({ error: 'Not found' });
-      return;
-    }
+    const matchCondition = { clinic_id: clinicId };
+    const pipeline = [
+      { $match: matchCondition }
+    ];
+    const employees = await dbClient.db.collection('employees').aggregate(pipeline).toArray();
+    const employee = employees.find(emp => emp._id.toString() === id);
     res.status(200).json(employee);
   },
 
   getIndex: async (req, res) => {
     // query by type and page number for pagination
+    const clinicName = req.session.user.name;
     const clinicId = req.session.user.id;
-    const { type } = req.query;
     const page = req.query.page ? parseInt(req.query.page, 10) : 0;
-    const employee = await dbClient.findEmpByField('clinicId', clinicId);
+    const clinic = await dbClient.findClinicByField('name', clinicName);
     const skip = page * 10;
+    const matchCondition = { clinic_id: clinicId };
     const pipeline = [
-      { $match: { type: employee.type } },
+      { $match: matchCondition },
       { $skip: skip },
       { $limit: 10 },
     ];
