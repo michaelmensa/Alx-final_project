@@ -1,16 +1,19 @@
-import dbClient from '../config/db';
+import Clinic from '../config/Schema/clinic';
+import Employee from '../config/Schema/employee';
+import Patient from '../config/Schema/patient';
 import utils from '../utils/utils';
 
 const clinicController = {
+  // creates new Clinic
   postNew: async (req, res) => {
-    const name = req.body ? req.body.name : null;
-    const email = req.body ? req.body.email : null;
+    const clinicName = req.body ? req.body.name : null;
+    const clinicEmail = req.body ? req.body.email : null;
     const password = req.body ? req.body.password : null;
-    if (!name) {
+    if (!clinicName) {
       res.status(400).json({ error: 'Clinic Name is missing' });
       return;
     }
-    if (!email) {
+    if (!clinicEmail) {
       res.status(400).json({ error: 'Clinic Email is missing' });
       return;
     }
@@ -19,12 +22,13 @@ const clinicController = {
       return;
     }
 
+    const clinicPassword = utils.hashPassword(password);
+
     try {
       // check if clinic exists
-      const existingClinic = await dbClient.findClinic(email);
+      const existingClinic = await Clinic.findOne({ $or: [{ clinicName }, { clinicEmail }] });
       if (!existingClinic) {
-        await dbClient.createClinic(name, email, password);
-        const newClinic = await dbClient.findClinic(email);
+        const newClinic = await Clinic.create({ clinicName, clinicEmail, clinicPassword });
         console.log('New clinic created:', newClinic._id.toString());
         res.status(201).json({ id: newClinic._id.toString(), email: newClinic.email });
       } else {
@@ -36,15 +40,15 @@ const clinicController = {
   },
 
   postClinic: async (req, res) => {
-    const email = req.body ? req.body.email : null;
-    const password = req.body ? req.body.password : null;
+    const clinicEmail = req.body ? req.body.email : null;
+    const clinicPassword = req.body ? req.body.password : null;
 
     // validate email and password
-    if (!email) {
+    if (!clinicEmail) {
       res.status(400).json({ error: 'email required' });
       return;
     }
-    if (!password) {
+    if (!clinicPassword) {
       res.status(400).json({ error: 'password required' });
       return;
     }
@@ -52,12 +56,12 @@ const clinicController = {
     // authenticate login
     // check if clinic exists in db
     try {
-      const clinic = await dbClient.findClinic(email);
+      const clinic = await Clinic.findOne({ clinicEmail });
       if (!clinic) {
         res.status(404).json({ error: 'Not found' });
         return;
       }
-      const isValid = utils.checkPassword(password, clinic.password);
+      const isValid = utils.checkPassword(clinicPassword, clinic.clinicPassword);
       if (!isValid) {
         res.status(401).json({ message: 'check email or password' });
         return;
@@ -65,7 +69,7 @@ const clinicController = {
       // store clinic session
       req.session.clinic = {
         id: clinic._id.toString(),
-        name: clinic.name,
+        name: clinic.clinicName,
       };
       // redirect to /dashboard
       res.redirect('/api/v1/clinic/dashboard');
@@ -80,13 +84,17 @@ const clinicController = {
 
   getStats: async (req, res) => {
     const clinicId = req.session.clinic.id;
-    const matchCondition = { clinicId };
-    const pipeline = [
-      { $match: matchCondition },
-    ];
-    const employees = await dbClient.db.collection('employees').aggregate(pipeline).toArray();
-    const employeeCount = employees.length;
-    res.status(200).json({ Employees: employeeCount });
+    try {
+      const employeeCount = await Employee.countDocuments({ clinicId });
+      const patientCount = await Patient.countDocuments({ clinicId });
+      res.status(200).json({
+        Employees: employeeCount,
+        Patients: patientCount,
+      });
+    } catch (err) {
+      console.log('Failed to retrieve employee count', err);
+      res.status(500).json({ error: 'Failed' });
+    }
   },
 };
 
