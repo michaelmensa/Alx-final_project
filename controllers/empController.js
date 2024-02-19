@@ -1,38 +1,46 @@
-import dbClient from '../config/db';
+import Employee from '../config/Schema/employee';
 import utils from '../utils/utils';
 
 const empController = {
   postNew: async (req, res) => {
-    const name = req.body ? req.body.name : null;
-    const type = req.body ? req.body.type : null;
+    const firstName = req.body ? req.body.firstName : null;
+    const lastName = req.body ? req.body.lastName : null;
+    const role = req.body ? req.body.role : null;
     const email = req.body ? req.body.email : null;
-    const password = req.body ? req.body.password : null;
-    const clinicId = req.session.user.id;
-    if (!name) {
+    const _password = req.body ? req.body.password : null;
+    const clinicId = req.session.clinic.id;
+    if (!firstName || !lastName) {
       res.status(400).json({ error: 'Employee Name is missing' });
+      return;
+    }
+    if (!role) {
+      res.status(400).json({ error: 'Employee role is required' });
       return;
     }
     if (!email) {
       res.status(400).json({ error: 'Employee Email is missing' });
       return;
     }
-    if (!password) {
+    if (!_password) {
       res.status(400).json({ error: 'Employee Password is missing' });
       return;
     }
-    if (!type) {
-      res.status(400).json({ error: 'Employee type is missing' });
-      return;
-    }
+
+    const password = utils.hashPassword(_password);
 
     try {
       // check if clinic exists
-      const existingEmp = await dbClient.findEmp(email);
+      const existingEmp = await Employee.findOne({ $or: [{ firstName }, { email }] });
       if (!existingEmp) {
-        await dbClient.createEmp(name, type, email, password, clinicId);
-        const newEmp = await dbClient.findEmp(email);
+        const newEmp = await Employee.create({
+          firstName, lastName, role, email, password, clinicId,
+        });
         console.log('New employee created:', newEmp._id.toString());
-        res.status(201).json({ id: newEmp._id.toString(), email: newEmp.email });
+        res.status(201).json({
+          id: newEmp._id.toString(),
+          email: newEmp.email,
+          name: `${newEmp.firstName} ${newEmp.lastName}`,
+        });
       } else {
         res.status(400).json({ error: 'Employee Already exists' });
       }
@@ -42,31 +50,56 @@ const empController = {
   },
 
   getShow: async (req, res) => {
-    // query by type and page number for pagination
-    const { id } = req.params;
+    // get employee by req.params.id (employee._id)
+    const employeeId = req.params.id;
     const clinicId = req.session.clinic.id;
-    const matchCondition = { clinicId };
-    const pipeline = [
-      { $match: matchCondition },
-    ];
-    const employees = await dbClient.db.collection('employees').aggregate(pipeline).toArray();
-    const employee = employees.find((emp) => emp._id.toString() === id);
-    res.status(200).json(employee);
+    try {
+      const employee = await Employee.findById(employeeId);
+      if (employee.clinicId === clinicId) {
+        res.send(employee);
+      }
+    } catch (err) {
+      res.status(500).json({ error: 'Cannot retrieve employee' });
+    }
   },
 
   getIndex: async (req, res) => {
-    // query by type and page number for pagination
-    const clinicId = req.session.clinic.id;
-    const page = req.query.page ? parseInt(req.query.page, 10) : 0;
-    const skip = page * 10;
-    const matchCondition = { clinicId };
-    const pipeline = [
-      { $match: matchCondition },
-      { $skip: skip },
-      { $limit: 10 },
-    ];
-    const employees = await dbClient.db.collection('employees').aggregate(pipeline).toArray();
-    res.status(200).json(employees);
+    // get employees and if query, get by firstName or,
+    // lastName or, role and page number for pagination
+    try {
+      // Extract query parameters
+      const {
+        firstName, lastName, role, page,
+      } = req.query;
+
+      // Define query conditions based on clinicId
+      const clinicId = req.session.clinic.id;
+      const queryConditions = { clinicId };
+
+      // Add additional query conditions based on provided parameters
+      const orConditions = [];
+      if (firstName) orConditions.push({ firstName });
+      if (lastName) orConditions.push({ lastName });
+      if (role) orConditions.push({ role });
+
+      if (orConditions.length > 0) {
+        queryConditions.$or = orConditions;
+      }
+
+      // Pagination
+      const pageSize = 10; // Number of employees per page
+      const pageNumber = parseInt(page, 10) || 1; // Current page number
+
+      // Fetch employees based on query conditions and pagination
+      const employees = await Employee.find(queryConditions)
+        .skip((pageNumber - 1) * pageSize)
+        .limit(pageSize);
+
+      res.status(200).json(employees);
+    } catch (err) {
+      console.error('Failed to get employees:', err);
+      res.status(500).json({ error: 'Failed to get employees' });
+    }
   },
 
   getEmployeeLogIn: (req, res) => {
@@ -90,7 +123,7 @@ const empController = {
     // authenticate login
     // check if clinic exists in db
     try {
-      const employee = await dbClient.findEmp(email);
+      const employee = await Employee.findOne({ email });
       if (!employee) {
         res.status(404).json({ error: 'Not found' });
         return;
@@ -103,7 +136,8 @@ const empController = {
       // store employee session as object within clinic session
       req.session.clinic.employee = {
         id: employee._id.toString(),
-        name: employee.name,
+        fName: employee.firstName,
+        lName: employee.lastName,
       };
       res.status(201).json({ message: 'Employee log in success' });
     } catch (err) {
@@ -112,7 +146,11 @@ const empController = {
   },
 
   getEmployee: (req, res) => {
-    res.send(`Welcome ${req.session.clinic.employee.name}`);
+    const empFirstName = req.session.clinic.employee.fName;
+    const empLastName = req.session.clinic.employee.lName;
+    const empFullName = `${empFirstName} ${empLastName}`;
+    console.log(empFullName);
+    res.send(`Welcome ${empFullName}`);
   },
 
   postLogOut: (req, res) => {
