@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/tab-links.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/Logo.png') }}">
+    <title>ClinicBase - Administrator</title>
+</head>
+<body>
+    <header>
+        <h1>ClinicBase</h1>
+        <div id="api_status"></div>
+        <nav class="logout">
+            <ul>
+                <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+    <div class="container mt-3 ml-3">
+        <div class="row">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                     {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+    <div class="container">
+        <div class="employee-bar">
+	    <div id="responseContainer">
+	        <!-- CRUD Success Message -->
+            </div>
+            <div>
+                <h4>Patient Count     <button id="patientCountBtn">Count Patients</button></h4>
+                <h6 id="patientCount">Number: </h6> 
+                
+            </div>
+            <div>
+                <form>
+                    <br>
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" id="startDate" name="start_date" required><br><br>                                    
+                    <label for="endDate">End Date:</label>
+                    <input type="date" id="endDate" name="end_date" required><br><br>
+                                
+                    
+                </form>
+
+            </div>
+
+            <div>
+                <h4>Case Count     <button id="caseCountBtn">Count Cases</button></h4>
+                <h6 id="caseCount"> Number: </h6>                
+            </div>
+
+        </div>
+
+        <main>
+            <section class="patient-status">
+                <div>
+                    <h4>Employee Section</h4>
+                    <form id="searchEmployeeForm">
+                        <label for="empSearchFilter">Search By:</label>
+                        <select id="empSearchFilter" name="empSearchFilter" required>
+                            <option value="name">Name</option>                            
+                            <option value="email">Email</option>
+                        </select><br><br>
+                        <label for="empSearchText">Search Employee:</label><br>
+                        <input type="text" id="empSearchText" name="empSearchText" placeholder="Enter search query"
+                            required><br><br>
+                        
+                        <button type="submit">Search</button>
+                    </form>
+                    <h5>Search Results</h5>
+		    <ul id="emp-radio-button-list">
+                        <!-- Employee search will be added dynamically -->
+                    </ul>
+                    <button id="deleteEmployeeButton">Delete Employee</button>
+                </div>
+            </section>
+            <section class="patient-info">
+                <div class="patient-detail">
+
+                </div>
+                <div class="patient-history">
+
+                    <div class="employee-tab">
+                        <button class="tablinks" onclick="openTab(event, 'Add New Employee')" id="defaultOpen">Add New
+                            Employee</button>
+                        <button class="tablinks" onclick="openTab(event,'Update Employee Info')">Update Employee
+                            Info</button>
+                       
+                    </div>
+                    <div class="nav-content">
+                        <form id="createEmployeeForm">
+                            <div id="Add New Employee" class="tabcontent">
+                                <h3>Add New Employee</h3>
+                                <form id="createEmployeeForm">
+                                    <label for="name">Name:</label>
+                                    <input type="text" id="name" name="name" required><br><br>                                    
+                                    <label for="email">Email:</label>
+                                    <input type="email" id="email" name="email" required><br><br>
+                                    <label for="password">Password:</label>
+                                    <input type="password" id="password" name="password" required><br><br>                                
+                                    <label for="role">Role:</label>
+                                    <select id="role" name="role" required>
+                                        <option value="optometrist">optometrist</option>
+                                        <option value="receptionist">receptionist</option>
+                                    </select><br><br>                                    
+                                    <label for="licenseNumber">License Number:</label>
+                                    <input type="text" id="licenseNumber" name="license"><br><br>
+                                    <input type="submit" id="createEmployeeButton" value="Save Employee">
+                                </form>
+                            </div>
+                            <div id="Update Employee Info" class="tabcontent">
+                                <h3>Update Employee Info</h3>
+                                <form id="updateEmployeeForm">                           
+                                                                     
+                                    <label for="email">Email:</label>
+                                    <input type="email" id="uemail" name="email"><br><br>                                   
+                                    <label for="psword">Password:</label>
+                                    <input type="password" id="psword" name="password" required><br><br>
+                                    <input type="submit" id="updateEmployeeButton" value="Update Employee">
+                                </form>
+                            </div>
+                            
+
+                        </form>
+
+                    </div>
+
+            </section>
+
+            <section class="save-patient">
+                <div>
+                    <h4>Patient Section</h4>
+                    <form id="searchPatientForm">
+                        <label for="searchText">Search Patient:</label><br>
+                        <input type="text" id="searchText" name="searchText" placeholder="Enter search query"
+                            required><br><br>
+                        <label for="searchFilter">Search Patient By:</label><br>
+                        <select id="searchFilter" name="searchFilter" required>
+                            <option value="firstname">First Name</option>
+                            <option value="surname">Surname</option>
+                            <option value="insurance">Insurance</option>
+                        </select>
+                        <button type="submit">Search</button>
+                    </form>
+                    <h5>Search Results</h5>
+		    <ul id="radio-button-list">
+                        <!-- Patient search will be added dynamically -->
+                    </ul>
+                </div>
+                <button id="patientRecordButton">View Patient Records</button><br><br><br>
+                <div id="medicalRecordsContainer">
+                    <!-- Patient medical records will be added dynamically -->
+                </div>
+            </section>
+        </main>
+        
+    </div>
+    <footer>
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> ClinicBase</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='scripts/role.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/admin.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/medHist.js') }}"></script>
+</body>
+</html>
