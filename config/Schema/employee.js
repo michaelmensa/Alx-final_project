@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const employeeSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
-  phoneNumber: String,
   role: String,
   email: String,
   password: String,
+  clinicId: String,
 });
 
-const Employee = new mongoose.model('employees', employeeSchema);
+const Employee = mongoose.model('Employee', employeeSchema);
 
 module.exports = Employee;

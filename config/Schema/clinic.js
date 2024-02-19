@@ -6,6 +6,6 @@ const clinicSchema = new mongoose.Schema({
   clinicPassword: String,
 });
 
-const Clinic = new clinicSchema.model('clinics', clinicSchema);
+const Clinic = mongoose.model('Clinic', clinicSchema);
 
 module.exports = Clinic;
