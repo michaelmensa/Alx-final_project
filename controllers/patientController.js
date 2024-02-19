@@ -1,36 +1,42 @@
-import dbClient from '../config/db';
+import Patient from '../config/Schema/patient';
 
 const patientController = {
   postNew: async (req, res) => {
     const firstName = req.body ? req.body.firstName : null;
     const lastName = req.body ? req.body.lastName : null;
-    const dob = req.body ? req.body.dob : null;
-    const occupation = req.body ? req.body.occupation : null;
-    if (!firstName) {
-      res.status(400).json({ error: 'Patient FirstName is missing' });
+    const gender = req.body ? req.body.gender : null;
+    const phoneNumber = req.body ? req.body.phoneNumber : null;
+    const profession = req.body ? req.body.profession : null;
+    const clinicId = req.session.clinic.id;
+    if (!firstName || !lastName) {
+      res.status(400).json({ error: 'Patient Name is missing' });
       return;
     }
-    if (!lastName) {
-      res.status(400).json({ error: 'Patient LastEmail is missing' });
+    if (!gender) {
+      res.status(400).json({ error: 'Choose Gender' });
       return;
     }
-    if (!dob) {
-      res.status(400).json({ error: 'Patient DOB is missing' });
+    if (!phoneNumber) {
+      res.status(400).json({ error: 'Patient phoneNumber is missing' });
       return;
     }
-    if (!occupation) {
-      res.status(400).json({ error: 'Patient Occupation is missing' });
+    if (!profession) {
+      res.status(400).json({ error: 'Patient Profession is missing' });
       return;
     }
 
     try {
       // check if clinic exists
-      const existingPatient = await dbClient.findPatient(firstName);
+      const existingPatient = await Patient.findOne({ $or: [{ firstName }, { lastName }] });
       if (!existingPatient) {
-        await dbClient.createPatient(firstName, lastName, dob, occupation);
-        const newPatient = await dbClient.findPatient(firstName);
-        console.log('new Patient created:', newPatient._id.toString());
-        res.status(201).json({ id: newPatient._id.toString(), fullName: newPatient.fullName });
+        const patient = await Patient.create({
+          firstName, lastName, gender, phoneNumber, profession, clinicId,
+        });
+        console.log('new Patient created:', patient._id.toString());
+        res.status(201).json({
+          id: patient._id.toString(),
+          fullName: `${patient.firstName} ${patient.lastName}`,
+        });
       } else {
         res.status(400).json({ error: 'Patient Already exists' });
       }
