@@ -1,27 +1,20 @@
-import dbClient from '../config/db';
+import Clinic from '../config/Schema/clinic';
+import Employee from '../config/Schema/employee';
+import Patient from '../config/Schema/patient';
 
 const appController = {
-  getStatus: (req, res) => {
-    try {
-      const dbAlive = dbClient.isAlive();
-      res.status(200).json({ db: dbAlive });
-    } catch (err) {
-      res.status(500).json({ Server: `${err}` });
-    }
-  },
-
   getStats: async (req, res) => {
     try {
-      const countClinics = await dbClient.nbClinics();
-      const countEmployees = await dbClient.nbEmployees();
-      const countPatients = await dbClient.nbPatients();
-      // await dbClient.deleteAllClinics();
+      const countClinics = await Clinic.countDocuments();
+      const countEmployees = await Employee.countDocuments();
+      const countPatients = await Patient.countDocuments();
       res.status(200).json({
         clinics: countClinics,
         employees: countEmployees,
         patients: countPatients,
       });
     } catch (err) {
+      console.log('Failed to count clinics', err);
       res.status(500).json({ Server: `${err}` });
     }
   },
@@ -31,7 +24,7 @@ const appController = {
   },
 
   getLogIn: (req, res) => {
-    res.send('Clinic LogIn')
+    res.send('Clinic LogIn');
   },
 
   postLogOut: (req, res) => {
