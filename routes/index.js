@@ -17,6 +17,8 @@ router.get('/clinic/dashboard', ClinicController.getClinic);
 router.get('/clinic/dashboard/stats', ClinicController.getStats);
 router.get('/clinic/dashboard/employees/:id', EmpController.getShow);
 router.get('/clinic/dashboard/employees', EmpController.getIndex);
+router.get('/clinic/dashboard/patients', PatientController.getIndex);
+router.get('/clinic/dashboard/patients/:id', PatientController.getShow);
 router.get('/clinic/dashboard/loginemployee', EmpController.getEmployeeLogIn);
 // post /clinic/dashboard/employees
 router.post('/clinic/dashboard/employees', EmpController.postNew);
@@ -27,7 +29,11 @@ router.post('/clinic/dashboard/logout', AppController.postLogOut);
 // router.use('/employee/dashboard') all requires employee login
 router.use('/employee', middleware.requireEmployeeLogin);
 router.get('/employee/dashboard', EmpController.getEmployee);
+router.get('/employee/dashboard/patientstats', PatientController.getStats);
+router.get('/employee/dashboard/patients', PatientController.getIndex);
+router.get('/employee/dashboard/patients/:id', PatientController.getShow);
 router.post('/employee/dashboard/createpatient', PatientController.postNew);
+// post /employee/dashboard/logout to log out clinic
 router.post('/employee/dashboard/logout', EmpController.postLogOut);
 
 // routes that are not protected
