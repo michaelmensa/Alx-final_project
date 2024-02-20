@@ -27,7 +27,17 @@ const patientController = {
 
     try {
       // check if clinic exists
-      const existingPatient = await Patient.findOne({ $or: [{ firstName }, { lastName }] });
+      const filter = {
+        $and: [
+          { firstName },
+          { lastName },
+          { gender },
+          { phoneNumber },
+          { profession },
+          { clinicId },
+        ],
+      };
+      const existingPatient = await Patient.findOne(filter);
       if (!existingPatient) {
         const patient = await Patient.create({
           firstName, lastName, gender, phoneNumber, profession, clinicId,
