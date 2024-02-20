@@ -154,11 +154,10 @@ const empController = {
   },
 
   postLogOut: (req, res) => {
-    if (!req.session.clinic && !req.session.clinic.employee) {
-      res.status(404).json({ error: 'Not found' });
+    if (req.session.clinic && req.session.clinic.employee) {
+      delete req.session.clinic.employee;
     }
-    delete req.session.clinic.employee;
-    res.redirect('/api/v1/clinic/dashboard');
+    req.session.clinic ? res.redirect('/api/v1/clinic/dashboard') : res.status(500).json({ error: 'Error' });
   },
 };
 
