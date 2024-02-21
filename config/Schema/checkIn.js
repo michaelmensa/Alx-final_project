@@ -21,6 +21,7 @@ const checkInSchema = new mongoose.Schema({
   },
   examination: {
     type: Examination,
+    required: false,
   },
 });
 
