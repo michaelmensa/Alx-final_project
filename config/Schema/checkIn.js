@@ -1,5 +1,3 @@
-import Examination from './examination';
-
 const mongoose = require('mongoose');
 
 /**
@@ -10,7 +8,7 @@ const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema.Types;
 
 const checkInSchema = new mongoose.Schema({
-  patientId: {
+  patient: {
     type: ObjectId,
     ref: 'Patient',
     required: true,
@@ -19,9 +17,19 @@ const checkInSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  visitType: {
+    type: String,
+    enum: ['NEW', 'REVIEW', 'REPORT'],
+    default: 'NEW',
+    required: true,
+  },
+  billing: {
+    type: String,
+    required: true,
+  },
   examination: {
-    type: Examination,
-    required: false,
+    type: ObjectId,
+    ref: 'Examination',
   },
 });
 
