@@ -8,6 +8,10 @@ const patientSchema = new mongoose.Schema({
   phoneNumber: String,
   profession: String,
   clinicId: String,
+  checkIns: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'CheckIn',
+  }],
 });
 
 const Patient = mongoose.model('Patient', patientSchema);
