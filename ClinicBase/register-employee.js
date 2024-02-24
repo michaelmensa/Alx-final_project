@@ -51,3 +51,33 @@ function updateCaseCount() {
 
 // Sample: Update case count every 5 seconds
 setInterval(updateCaseCount, 5000);
+
+
+/* search employee tab */
+
+// Sample data for names
+const namesList = ["John", "Jane", "Bob", "Alice", "Charlie", "Diana"];
+
+function searchNames() {
+  const searchInput = document.getElementById("searchInput").value.toLowerCase();
+  const resultsContainer = document.getElementById("resultsContainer");
+  resultsContainer.innerHTML = "";
+
+  const results = namesList.filter(name => name.toLowerCase().includes(searchInput));
+
+  if (results.length > 0) {
+    results.forEach(result => {
+      const resultElement = document.createElement("div");
+      resultElement.className = "result";
+      resultElement.textContent = result;
+      resultsContainer.appendChild(resultElement);
+    });
+  } else {
+    const noResultsElement = document.createElement("div");
+    noResultsElement.textContent = "No results found.";
+    resultsContainer.appendChild(noResultsElement);
+  }
+
+  resultsContainer.style.display = "block";
+}
+
