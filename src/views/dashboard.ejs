@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clinic - Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .search-form {
+      margin-bottom: 20px;
+    }
+    .search-form input[type="text"] {
+      width: 200px;
+      padding: 8px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+    .btn {
+      padding: 8px 16px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+    .register-employee-form {
+      display: none; /* Initially hide the form */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Clinic Dashboard</h1>
+    <button class="btn" id="logout-btn">Logout</button>
+    <button class="btn" id="refresh-btn">Refresh Statistics</button>
+    <button class="btn" id="login-employee-btn">Login Employee</button>
+    <button class="btn" id="register-employee-btn">Register Employee</button>
+    <form class="search-form">
+      <input type="text" id="employee-search" placeholder="Search employees...">
+      <button class="btn" id="search-btn">Search</button>
+    </form>
+  </div>
+  <!-- Elements to display clinic statistics -->
+  <div>Total Patients: <span id="total-patients"></span></div>
+  <div>Total Employees: <span id="total-employees"></span></div>
+
+  <!-- employee registration form goes here-->
+  <div class="register-employee-form" id="register-employee-form">
+    <h2>Register Employee</h2>
+    <form action="/clinic/dashboard/employees" method="post">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" required>
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" required>
+      <label for="role">Role:</label>
+      <input type="text" id="role" name="role" required>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      <button class="btn" id="save-employee-btn">Save Employee</button>
+    </form>
+  </div>
+
+  <script>
+    // Add event listeners to buttons
+    document.getElementById('logout-btn').addEventListener('click', function() {
+      // Perform logout action
+      // Perform logout action
+      fetch('/clinic/dashboard/logout', {
+        method: 'POST',
+        credentials: 'same-origin' // Include cookies in the request
+    })
+    .then(response => {
+        if (response.ok) {
+            // Redirect to the login page or perform any other actions
+            alert('Logout successful');
+            window.location.href = '/login';
+        } else {
+            // Handle error response
+            alert('Failed to logout. Please try again.');
+        }
+    })
+    .catch(error => {
+        console.error('Error logging out:', error);
+        alert('An error occurred while logging out. Please try again later.');
+    })
+});
+
+    document.getElementById('refresh-btn').addEventListener('click', function() {
+      // Perform refresh action
+      // Example: fetchClinicStatistics();
+      fetch('/clinic/dashboard/stats', {
+        method: 'GET',
+        credentials: 'same-origin'
+      })
+      .then(res => {
+        if (res.ok) {
+            return res.json();
+        } else {
+            throw new Error('Could not retrieve clinic statistics');
+        }
+      })
+      .then(data => {
+        displayClinicStatistics(data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      })
+
+      function displayClinicStatistics(data) {
+        document.getElementById('total-patients').textContent = data.Patients;
+        document.getElementById('total-employees').textContent = data.Employees;
+        console.log('Clinic Statistics:', data);
+      }
+    });
+
+    document.getElementById('login-employee-btn').addEventListener('click', function() {
+      // Show employee login form
+      // Example: showEmployeeLoginForm();
+      alert('Login Employee clicked');
+    });
+
+    document.getElementById('register-employee-btn').addEventListener('click', function() {
+      // Show register employee form
+      // Show register employee form
+      document.getElementById('register-employee-form').style.display = 'block';
+    });
+
+    document.getElementById('save-employee-btn').addEventListener('click', function() {
+     alert('Employee sucessfully registered!');
+      // Hide the register employee form
+      document.getElementById('register-employee-form').style.display = 'none';
+    });
+
+    document.getElementById('search-btn').addEventListener('click', function() {
+      // Perform search action
+      const query = document.getElementById('employee-search').value;
+      // Example: searchEmployees(query);
+      alert('Search clicked with query: ' + query);
+    });
+  </script>
+</body>
+</html>

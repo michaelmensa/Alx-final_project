@@ -20,11 +20,11 @@ const appController = {
   },
 
   getSignUp: (req, res) => {
-    res.send('Register Clinic');
+    res.render('register');
   },
 
   getLogIn: (req, res) => {
-    res.send('Clinic LogIn');
+    res.render('register');
   },
 
   postLogOut: (req, res) => {
@@ -35,7 +35,7 @@ const appController = {
         res.status(500).json({ error: 'Failed to log out' });
       } else {
         // Redirect the user to the login page or send a success message
-        res.redirect('/api/v1/auth/login');
+        res.redirect('/');
       }
     });
   },

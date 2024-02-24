@@ -55,11 +55,7 @@ const empController = {
           clinicId,
         });
         console.log('New employee created:', newEmp.employeeID);
-        res.status(201).json({
-          id: newEmp.employeeID,
-          email: newEmp.email,
-          name: `${newEmp.firstName} ${newEmp.lastName}`,
-        });
+        res.redirect('/clinic/dashboard');
       } else {
         res.status(400).json({ error: 'Employee Already exists' });
       }

@@ -30,15 +30,21 @@ const clinicController = {
       if (!existingClinic) {
         const newClinic = await Clinic.create({ clinicName, clinicEmail, clinicPassword });
         console.log('New clinic created:', newClinic._id.toString());
-        res.status(201).json({ id: newClinic._id.toString(), email: newClinic.email });
+        res.render('success', {
+          subTitle: "Success",
+          subject: `${newClinic.clinicName}`,
+        });
       } else {
-        res.status(400).json({ error: 'Clinic Already exists' });
+        res.render('failure', {
+          title: "Clinic already exists",
+        });
       }
     } catch (err) {
       res.status(500).json({ error: `${err}` });
     }
   },
 
+  // login to clinic dashboard
   postClinic: async (req, res) => {
     const clinicEmail = req.body ? req.body.email : null;
     const clinicPassword = req.body ? req.body.password : null;
@@ -72,14 +78,14 @@ const clinicController = {
         name: clinic.clinicName,
       };
       // redirect to /dashboard
-      res.redirect('/api/v1/clinic/dashboard');
+      res.redirect('/clinic/dashboard');
     } catch (err) {
       res.status(500).json({ error: `${err}` });
     }
   },
 
   getClinic: async (req, res) => {
-    res.send(`Welcome ${req.session.clinic.name}`);
+    res.render('dashboard');
   },
 
   getStats: async (req, res) => {

@@ -1,6 +1,6 @@
 const staticPage = {
   getHome: (req, res) => {
-    res.status(200).json({ status: 'Home Page' });
+    res.render('index');
   },
 
   getAbout: (req, res) => {
