@@ -1,0 +1,67 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="ClinicBase">
+
+  <meta name="description" content="" />
+	<meta name="keywords" content="" />
+	
+	<link rel="stylesheet" href="../public/css/style-reg.css">
+
+  <title>Clinic Registration Form</title>
+</head> 
+
+<body> 
+	<div class="main"> 
+		<h1>Register Clinic</h1> 
+		<form action=""> 
+			<label for="first">Clinic Name:</label> 
+			<input type="text" id="cname"
+				name="first"
+				placeholder="Enter your clinic name" required>
+
+			<label for="email">Email:</label> 
+			<input type="email" id="email"
+				name="email"
+				placeholder="Enter your clinic email" required> 
+
+			<label for="password">Password:</label> 
+			<input type="password" id="password"
+				name="password"
+				placeholder="Enter your password"
+				pattern= 
+				"^(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])\S{8,}$" required				 
+				title="Password must contain at least one number, 
+					one alphabet, one symbol, and be at 
+					least 8 characters long"> 
+
+			<label for="repassword">Re-type Password:</label> 
+			<input type="password" id="repassword"
+				name="repassword"
+				placeholder="Re-Enter your password" required> 
+			<span id="pass"></span> 
+
+			<label for="mobile">Contact:</label> 
+			<input type="text" id="mobile"
+				name="mobile"
+				placeholder="Enter your clinic phone number" required 
+				maxlength="10"> 
+
+            <label for="first">Location:</label> 
+            <input type="text" id="location"
+                name="location"
+                placeholder="Enter your clinic location" required>
+
+			<div class="wrap"> 
+				<button type="submit" onclick="solve()"> 
+				Submit 
+				</button> 
+			</div> 
+		</form> 
+	</div> 
+	<script src="../public/js/script.js"></script> 
+</body> 
+
+</html>

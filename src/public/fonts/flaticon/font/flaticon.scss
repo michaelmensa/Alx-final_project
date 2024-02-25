@@ -1,0 +1,49 @@
+$flaticon-font: "flaticon";
+
+@font-face {
+    font-family: $flaticon-font;
+    src: url("./flaticon.ttf?ede0aec3428d96e65fff6607d3d60778") format("truetype"),
+url("./flaticon.woff?ede0aec3428d96e65fff6607d3d60778") format("woff"),
+url("./flaticon.woff2?ede0aec3428d96e65fff6607d3d60778") format("woff2"),
+url("./flaticon.eot?ede0aec3428d96e65fff6607d3d60778#iefix") format("embedded-opentype"),
+url("./flaticon.svg?ede0aec3428d96e65fff6607d3d60778#flaticon") format("svg");
+}
+
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+    font-family: flaticon !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$flaticon-map: (
+    "bacteria-1": "\f101",
+    "lungs": "\f102",
+    "bacteria": "\f103",
+    "test-tubes": "\f104",
+    "vaccine": "\f105",
+    "mask": "\f106",
+);
+
+.flaticon-bacteria-1:before {
+    content: map-get($flaticon-map, "bacteria-1");
+}
+.flaticon-lungs:before {
+    content: map-get($flaticon-map, "lungs");
+}
+.flaticon-bacteria:before {
+    content: map-get($flaticon-map, "bacteria");
+}
+.flaticon-test-tubes:before {
+    content: map-get($flaticon-map, "test-tubes");
+}
+.flaticon-vaccine:before {
+    content: map-get($flaticon-map, "vaccine");
+}
+.flaticon-mask:before {
+    content: map-get($flaticon-map, "mask");
+}
