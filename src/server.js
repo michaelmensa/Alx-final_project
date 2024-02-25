@@ -2,8 +2,8 @@ const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const bodyParser = require('body-parser');
-const connectDB = require('../config/db');
-const routes = require('../routes/index');
+const connectDB = require('./config/db');
+const routes = require('./routes/index');
 
 const app = express();
 
@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 
 connectDB();
 
-app.use('/api/v1', routes);
+app.use('/', routes);
 
 app.listen(PORT, () => {
   console.log(`Running express app on ${PORT}`);
