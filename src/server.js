@@ -19,6 +19,7 @@ app.set('view engine', 'ejs');
 // middleware to parse req.body in json
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'scripts')));
 
 // set up express-session middleware
 app.use(session({

@@ -35,14 +35,22 @@
     .btn:hover {
       background-color: #0056b3;
     }
-    .register-employee-form {
-      display: none; /* Initially hide the form */
+    .form-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      display: none; /* Initially hide the forms */
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Clinic Dashboard</h1>
+    <h1><%= subTitle %> Dashboard</h1>
     <button class="btn" id="logout-btn">Logout</button>
     <button class="btn" id="refresh-btn">Refresh Statistics</button>
     <button class="btn" id="login-employee-btn">Login Employee</button>
@@ -57,21 +65,35 @@
   <div>Total Employees: <span id="total-employees"></span></div>
 
   <!-- employee registration form goes here-->
-  <div class="register-employee-form" id="register-employee-form">
+  <div class="form-container" id="register-employee-form">
     <h2>Register Employee</h2>
     <form action="/clinic/dashboard/employees" method="post">
       <label for="firstName">First Name:</label>
-      <input type="text" id="firstName" name="firstName" required>
+      <input type="text" id="firstName" name="firstName" required><br>
       <label for="lastName">Last Name:</label>
-      <input type="text" id="lastName" name="lastName" required>
+      <input type="text" id="lastName" name="lastName" required><br>
       <label for="role">Role:</label>
-      <input type="text" id="role" name="role" required>
+      <input type="text" id="role" name="role" required><br>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required><br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required><br>
+      <button class="btn" id="save-employee-btn">Save Employee</button>
+    </form>
+  </div>
+
+  <!-- Login Employee Form -->
+  <div class="form-container" id="login-employee-form">
+    <h2>Login Employee</h2>
+    <!-- Form fields for login employee -->
+    <form action="/clinic/dashboard/loginemployee" method="post">
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" required>
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required>
-      <button class="btn" id="save-employee-btn">Save Employee</button>
+      <button class="btn" id="login-btn">Login</button>
     </form>
+    
   </div>
 
   <script>
@@ -130,7 +152,13 @@
     document.getElementById('login-employee-btn').addEventListener('click', function() {
       // Show employee login form
       // Example: showEmployeeLoginForm();
-      alert('Login Employee clicked');
+      document.getElementById('login-employee-form').style.display = 'block';
+    });
+
+    document.getElementById('login-btn').addEventListener('click', function() {
+     alert('Employee sucessfully logged in!');
+      // Hide the register employee form
+      document.getElementById('login-employee-form').style.display = 'none';
     });
 
     document.getElementById('register-employee-btn').addEventListener('click', function() {

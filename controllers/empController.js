@@ -163,7 +163,7 @@ const empController = {
         fName: employee.firstName,
         lName: employee.lastName,
       };
-      res.status(201).json({ message: 'Employee log in success' });
+      res.redirect('/employee/dashboard');
     } catch (err) {
       res.status(500).json({ error: `${err}` });
     }
@@ -174,7 +174,7 @@ const empController = {
     const empLastName = req.session.clinic.employee.lName;
     const empFullName = `${empFirstName} ${empLastName}`;
     console.log(empFullName);
-    res.send(`Welcome ${empFullName}`);
+    res.send(`Welcome ${empFullName}!`);
   },
 
   postLogOut: (req, res) => {

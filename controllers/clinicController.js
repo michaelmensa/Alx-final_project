@@ -85,7 +85,13 @@ const clinicController = {
   },
 
   getClinic: async (req, res) => {
-    res.render('dashboard');
+    if (!req.session || !req.session.clinic) {
+      res.redirect('/')
+    }
+    const clinicName = req.session.clinic.name;
+    res.render('dashboard', {
+      subTitle: clinicName,
+    });
   },
 
   getStats: async (req, res) => {
