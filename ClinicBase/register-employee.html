@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="register-employee.css">
+    <title>Clinic Management System</title>
+</head>
+<body>
+    <header>
+        <h1>Clinic Management System</h1>
+    </header>
+
+    <section id="newPatient">
+        <h2>Add New Patient</h2>
+        <!-- Form to add a new patient -->
+        <form id="patientForm" onsubmit="addPatient(event)">
+            <label for="patientName">Patient Name:</label>
+            <input type="text" id="patientName" required>
+            
+            <label for="patientAge">Age:</label>
+            <input type="number" id="patientAge" required>
+            
+            <label for="patientGender">Gender:</label>
+            <select id="patientGender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <button type="submit">Add Patient</button>
+        </form>
+    </section>
+
+    <section id="patientInfo">
+        <h2>Patient Information</h2>
+        <div id="patientDetails">
+            <!-- Display patient information here -->
+        </div>
+    </section>
+
+    <section id="caseCount">
+        <h2>Case Count</h2>
+        <div id="caseCounter">
+            <!-- Display case count here -->
+        </div>
+    </section>
+
+    <footer>
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Clinic Management System</p>
+    </footer>
+
+    <script src="register-employee.js"></script>
+</body>
+</html>
