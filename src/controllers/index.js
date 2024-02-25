@@ -1,15 +1,23 @@
 const staticPage = {
   getHome: (req, res) => {
-    res.status(200).json({ status: 'Home Page' });
+    res.render('index');
   },
 
   getAbout: (req, res) => {
-    res.status(200).json({ status: 'About Us Page' });
+    res.render('about');
   },
 
   getContact: (req, res) => {
-    res.status(200).json({ status: 'Contact Us Page' });
+    res.render('contact');
   },
+
+  getServices: (_req, res) => {
+    res.render('services');
+  },
+
+  getBlog: (_req, res) => {
+    res.render('blog');
+  }
 };
 
 module.exports = staticPage;

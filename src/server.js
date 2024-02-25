@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const bodyParser = require('body-parser');
@@ -9,9 +10,16 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+// Set the 'views' directory to hold your HTML files
+app.set('views', path.join(__dirname, 'views'));
+
+// Set the view engine to 'html' (optional, but recommended)
+app.set('view engine', 'ejs');
+
 // middleware to parse req.body in json
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // set up express-session middleware
 app.use(session({

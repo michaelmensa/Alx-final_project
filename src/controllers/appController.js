@@ -20,11 +20,11 @@ const appController = {
   },
 
   getSignUp: (req, res) => {
-    res.send('Register Clinic');
+    res.render('register_clinic');
   },
 
   getLogIn: (req, res) => {
-    res.send('Clinic LogIn');
+    res.render('login');
   },
 
   postLogOut: (req, res) => {

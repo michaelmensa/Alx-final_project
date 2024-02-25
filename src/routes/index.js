@@ -55,12 +55,16 @@ router.get('/', StaticPage.getHome);
 router.get('/about', StaticPage.getAbout);
 // get /contact
 router.get('/contact', StaticPage.getContact);
+// get /services
+router.get('/services', StaticPage.getServices);
+// get /blog
+router.get('/blog', StaticPage.getBlog);
 // get /stats
 router.get('/stats', AppController.getStats);
 // get /auth/register to get register new clinic page
-router.get('/auth/register', AppController.getSignUp);
+router.get('/register', AppController.getSignUp);
 // get /auth/login to get log in page after clinic has been registered
-router.get('/auth/login', AppController.getLogIn);
+router.get('/login', AppController.getLogIn);
 
 // post requests
 // post /auth/register to register clinic
