@@ -8,7 +8,10 @@ const clinicController = {
   postNew: async (req, res) => {
     const clinicName = req.body ? req.body.name : null;
     const clinicEmail = req.body ? req.body.email : null;
+    const contact = req.body ? req.body.mobile : null;
+    const location = req.body ? req.body.location : null;
     const password = req.body ? req.body.password : null;
+    const retypePassword = req.body ? req.body.repassword : null;
     if (!clinicName) {
       res.status(400).json({ error: 'Clinic Name is missing' });
       return;
@@ -21,6 +24,14 @@ const clinicController = {
       res.status(400).json({ error: 'Clinic Password is missing' });
       return;
     }
+    if (!retypePassword) {
+      res.status(400).json({ error: 'retypePassword is missing' });
+      return;
+    }
+
+    if (password !== retypePassword) {
+      res.json('Passwords do not match');
+    }
 
     const clinicPassword = utils.hashPassword(password);
 
@@ -28,9 +39,14 @@ const clinicController = {
       // check if clinic exists
       const existingClinic = await Clinic.findOne({ $or: [{ clinicName }, { clinicEmail }] });
       if (!existingClinic) {
-        const newClinic = await Clinic.create({ clinicName, clinicEmail, clinicPassword });
+        const newClinic = await Clinic.create({
+          clinicName,
+          contact,
+          location,
+          clinicEmail,
+          clinicPassword });
         console.log('New clinic created:', newClinic._id.toString());
-        res.status(201).json({ id: newClinic._id.toString(), email: newClinic.email });
+        res.redirect('/login');
       } else {
         res.status(400).json({ error: 'Clinic Already exists' });
       }
@@ -70,16 +86,30 @@ const clinicController = {
       req.session.clinic = {
         id: clinic._id.toString(),
         name: clinic.clinicName,
+        contact: clinic.contact,
+        location: clinic.location,
       };
       // redirect to /dashboard
-      res.redirect('/api/v1/clinic/dashboard');
+      res.redirect('/clinic/dashboard');
     } catch (err) {
       res.status(500).json({ error: `${err}` });
     }
   },
 
+  // gets clinic dashboard
   getClinic: async (req, res) => {
-    res.send(`Welcome ${req.session.clinic.name}`);
+    if (!req.session.clinic || !req.session) {
+      res.redirect('/');
+      return;
+    }
+    const clinicName = req.session.clinic.name;
+    const clinicContact = req.session.clinic.contact;
+    const clinicLocation = req.session.clinic.location;
+    res.render('dashboard', {
+      clinicName,
+      clinicContact,
+      clinicLocation,
+    });
   },
 
   getStats: async (req, res) => {

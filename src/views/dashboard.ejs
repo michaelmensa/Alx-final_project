@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= clinicName %> - Dashboard</title>
+</head>
+<body>
+    <div id="clinic-dashboard">
+        <h1><%= clinicName %></h1>
+        <p>Contact Us on: <%= clinicContact %></p>
+        <p>Locate Us at: <%= clinicLocation %></p>
+    </div>
+
+    <div id="logout">
+        <button id="clinic-logout">
+            Logout
+        </button>
+    </div>
+
+    <script>
+        document.getElementById('clinic-logout').addEventListener('click', function() {
+            fetch('/clinic/dashboard/logout', {
+                method: 'POST',
+                credentials: "same-origin",
+            })
+            .then(res => {
+                if (res.ok) {
+                    alert('Logout Successful');
+                    window.location.href = '/';
+                } else {
+                    alert('Failed to logout, Please try again');
+                }
+            })
+            .catch(err => {
+                console.error('Errorr logging out', err);
+                alert('Error logging out');
+            })
+        });
+    </script>
+</body>
+</html>

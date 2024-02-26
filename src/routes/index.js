@@ -68,9 +68,9 @@ router.get('/login', AppController.getLogIn);
 
 // post requests
 // post /auth/register to register clinic
-router.post('/auth/register', ClinicController.postNew);
+router.post('/register', ClinicController.postNew);
 // post /auth/login to log in to clinic dashboard
-router.post('/auth/login', ClinicController.postClinic);
+router.post('/login', ClinicController.postClinic);
 // post /patients to create patients
 router.post('/patients', PatientController.postNew);
 
