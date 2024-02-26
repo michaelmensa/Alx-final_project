@@ -85,9 +85,6 @@ const clinicController = {
       // store clinic session
       req.session.clinic = {
         id: clinic._id.toString(),
-        name: clinic.clinicName,
-        contact: clinic.contact,
-        location: clinic.location,
       };
       // redirect to /dashboard
       res.redirect('/clinic/dashboard');
@@ -102,13 +99,14 @@ const clinicController = {
       res.redirect('/');
       return;
     }
-    const clinicName = req.session.clinic.name;
-    const clinicContact = req.session.clinic.contact;
-    const clinicLocation = req.session.clinic.location;
+    const clinicId = req.session.clinic.id;
+    // find clinic that is logged in
+    const clinic = await Clinic.findById(clinicId);
+    const { clinicName, contact, location } = clinic;
     res.render('dashboard', {
       clinicName,
-      clinicContact,
-      clinicLocation,
+      contact,
+      location,
     });
   },
 
