@@ -8,7 +8,7 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  dob: Date,
+  dOB: Date,
   gender: { type: String, enum: ['male', 'female', 'other'] },
   contact: String,
   role: String,

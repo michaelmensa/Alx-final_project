@@ -61,6 +61,8 @@ router.get('/contact', StaticPage.getContact);
 router.get('/services', StaticPage.getServices);
 // get /blog
 router.get('/blog', StaticPage.getBlog);
+// get /single
+router.get('/single', StaticPage.getSingleBlog);
 // get /stats
 router.get('/stats', AppController.getStats);
 // get /auth/register to get register new clinic page

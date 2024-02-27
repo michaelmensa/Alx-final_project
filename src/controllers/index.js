@@ -17,7 +17,11 @@ const staticPage = {
 
   getBlog: (_req, res) => {
     res.render('blog');
-  }
+  },
+
+  getSingleBlog: (req, res) => {
+    res.render('single');
+  },
 };
 
 module.exports = staticPage;

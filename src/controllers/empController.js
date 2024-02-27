@@ -48,6 +48,7 @@ const empController = {
       return;
     }
 
+    console.log(dOB);
     const password = utils.hashPassword(_password);
     const employeeID = await generateEmpCustomId({ clinicId });
 
