@@ -1,0 +1,89 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="ClinicBase">
+
+  <meta name="description" content="" />
+	<meta name="keywords" content="" />
+	
+	<link rel="stylesheet" href="/css/style-reg.css">
+
+  <title>Add New Employee</title>
+</head> 
+
+<body> 
+	<div class="main"> 
+		<h1>Create New Employee</h1> 
+		<form action="/clinic/dashboard/create" method="post">
+			<label for="first">First Name:</label> 
+			<input type="text" id="first"
+				name="first"
+				placeholder="Enter employee first name" required> 
+
+			<label for="last">Middle Name:</label>
+			<input type="text" id="middle"
+				name="middle"
+				placeholder="Enter employee middle name">
+				
+			<label for="last">Last Name:</label> 
+			<input type="text" id="last"
+				name="last"
+				placeholder="Enter employee last name" required> 
+
+			<label for="email">Email:</label> 
+			<input type="email" id="email"
+				name="email"
+				placeholder="Enter employee email" required> 
+
+			<label for="dob">Date of Birth:</label> 
+			<input type="date"
+				id="dob" name="dob"
+				placeholder="Enter employee DOB" required> 
+
+			<label for="password">Password:</label> 
+			<input type="password" id="password"
+				name="password"
+				placeholder="Enter employee password"
+				pattern= 
+				"^(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])\S{8,}$" required				 
+				title="Password must contain at least one number, 
+					one alphabet, one symbol, and be at 
+					least 8 characters long"> 
+
+			<label for="repassword">Re-type Password:</label> 
+			<input type="password" id="repassword"
+				name="repassword"
+				placeholder="Re-Enter employee password" required> 
+			<span id="pass"></span> 
+
+			<label for="mobile">Contact:</label> 
+			<input type="text" id="mobile"
+				name="mobile"
+				placeholder="Enter employee Mobile Number" required 
+				maxlength="10"> 
+
+			<label for="gender">Gender:</label> 
+			<select id="gender" name="gender" required> 
+				<option value="male">Male</option> 
+				<option value="female">Female</option> 
+				<option value="other">Other</option> 
+			</select>
+
+            <label for="role">Role:</label>
+			<input type="text" id="role"
+				name="role"
+				placeholder="Enter employee role" required>
+
+			<div class="wrap"> 
+				<button type="submit" onclick="solve()"> 
+				Submit 
+				</button> 
+			</div> 
+		</form> 
+	</div> 
+	<script src="/js/script.js"></script> 
+</body> 
+
+</html>

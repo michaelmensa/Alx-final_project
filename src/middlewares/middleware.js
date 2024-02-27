@@ -4,7 +4,7 @@ const middleware = {
       console.log(req.session.clinic);
       next();
     } else {
-      res.status(401).json({ error: 'Login required' });
+      res.redirect('/login');
     }
   },
 
@@ -13,7 +13,7 @@ const middleware = {
       console.log(req.session.clinic.employee);
       next();
     } else {
-      res.status(401).json({ error: 'Login required' });
+      res.redirect('/login');
     }
   },
 };

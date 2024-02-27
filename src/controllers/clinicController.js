@@ -55,6 +55,7 @@ const clinicController = {
     }
   },
 
+  // logs in a clinic
   postClinic: async (req, res) => {
     const clinicEmail = req.body ? req.body.email : null;
     const clinicPassword = req.body ? req.body.password : null;
@@ -83,8 +84,13 @@ const clinicController = {
         return;
       }
       // store clinic session
+      let currentDate = new Date();
+      let hours = currentDate.getUTCHours();
+      let minutes = currentDate.getUTCMinutes();
+      console.log(currentDate, hours, minutes);
       req.session.clinic = {
         id: clinic._id.toString(),
+        loginTime: hours + ':' + minutes,
       };
       // redirect to /dashboard
       res.redirect('/clinic/dashboard');
@@ -99,22 +105,23 @@ const clinicController = {
       res.redirect('/');
       return;
     }
-    const clinicId = req.session.clinic.id;
+    const { id, loginTime } = req.session.clinic;
     // find clinic that is logged in
-    const clinic = await Clinic.findById(clinicId);
+    const clinic = await Clinic.findById(id);
     const { clinicName, contact, location } = clinic;
     res.render('dashboard', {
       clinicName,
       contact,
       location,
+      loginTime,
     });
   },
 
   getStats: async (req, res) => {
     const clinicId = req.session.clinic.id;
     try {
-      const employeeCount = await Employee.countDocuments({ clinicId });
-      const patientCount = await Patient.countDocuments({ clinicId });
+      let employeeCount = await Employee.countDocuments({ clinicId });
+      let patientCount = await Patient.countDocuments({ clinicId });
       res.status(200).json({
         Employees: employeeCount,
         Patients: patientCount,
@@ -123,6 +130,16 @@ const clinicController = {
       console.log('Failed to retrieve employee count', err);
       res.status(500).json({ error: 'Failed' });
     }
+  },
+
+  // gets register employee form 
+  getEmployeeForm: (req, res) => {
+    res.render('register_employee');
+  },
+
+  // gets login employee form
+  getEmployeeLogIn: (req, res) => {
+    res.render('employeeLogin');
   },
 };
 

@@ -21,10 +21,12 @@ router.get('/clinic/dashboard/employees/:id', EmpController.getShow);
 router.get('/clinic/dashboard/employees', EmpController.getIndex);
 router.get('/clinic/dashboard/patients', PatientController.getIndex);
 router.get('/clinic/dashboard/patients/:id', PatientController.getShow);
-router.get('/clinic/dashboard/loginemployee', EmpController.getEmployeeLogIn);
+router.get('/clinic/dashboard/login', ClinicController.getEmployeeLogIn);
+// get /clinic/dashboard/create creates new employee
+router.get('/clinic/dashboard/create', ClinicController.getEmployeeForm);
 // post /clinic/dashboard/employees
-router.post('/clinic/dashboard/employees', EmpController.postNew);
-router.post('/clinic/dashboard/loginemployee', EmpController.postEmployeeLogIn);
+router.post('/clinic/dashboard/create', EmpController.postNew);
+router.post('/clinic/dashboard/login', EmpController.postEmployeeLogIn);
 // post /clinic/dashboard/logout to log out clinic
 router.post('/clinic/dashboard/logout', AppController.postLogOut);
 

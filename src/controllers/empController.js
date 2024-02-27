@@ -1,4 +1,5 @@
 import Employee from '../config/Schema/employee';
+import Clinic from '../config/Schema/clinic';
 import utils from '../utils/utils';
 
 /**
@@ -15,11 +16,16 @@ async function generateEmpCustomId(filter) {
 
 const empController = {
   postNew: async (req, res) => {
-    const firstName = req.body ? req.body.firstName : null;
-    const lastName = req.body ? req.body.lastName : null;
+    const firstName = req.body ? req.body.first : null;
+    const lastName = req.body ? req.body.last : null;
+    const otherName = req.body ? req.body.middle : null;
+    const dOB = req.body ? req.body.dob : null;
+    const gender = req.body ? req.body.gender : null;
+    const contact = req.body ? req.body.mobile : null;
     const role = req.body ? req.body.role : null;
     const email = req.body ? req.body.email : null;
     const _password = req.body ? req.body.password : null;
+    const repassword = req.body ? req.body.repassword : null;
     const clinicId = req.session.clinic.id;
     if (!firstName || !lastName) {
       res.status(400).json({ error: 'Employee Name is missing' });
@@ -37,6 +43,10 @@ const empController = {
       res.status(400).json({ error: 'Employee Password is missing' });
       return;
     }
+    if (_password !== repassword) {
+      res.status(404).json({ error: 'Passwords do not match' });
+      return;
+    }
 
     const password = utils.hashPassword(_password);
     const employeeID = await generateEmpCustomId({ clinicId });
@@ -49,17 +59,17 @@ const empController = {
           employeeID,
           firstName,
           lastName,
+          otherName,
+          dOB,
+          gender,
+          contact,
           role,
           email,
           password,
           clinicId,
         });
         console.log('New employee created:', newEmp.employeeID);
-        res.status(201).json({
-          id: newEmp.employeeID,
-          email: newEmp.email,
-          name: `${newEmp.firstName} ${newEmp.lastName}`,
-        });
+        res.redirect('/clinic/dashboard');
       } else {
         res.status(400).json({ error: 'Employee Already exists' });
       }
@@ -130,10 +140,6 @@ const empController = {
     }
   },
 
-  getEmployeeLogIn: (req, res) => {
-    res.send('Employee Login Page');
-  },
-
   postEmployeeLogIn: async (req, res) => {
     const email = req.body ? req.body.email : null;
     const password = req.body ? req.body.password : null;
@@ -162,30 +168,46 @@ const empController = {
         return;
       }
       // store employee session as object within clinic session
+      let currentDate = new Date();
+      let hours = currentDate.getUTCHours();
+      let minutes = currentDate.getUTCMinutes();
+      console.log(currentDate, hours, minutes);
       req.session.clinic.employee = {
         id: employee._id.toString(),
-        fName: employee.firstName,
-        lName: employee.lastName,
+        loginTime: `${hours}:${minutes}`,
       };
-      res.status(201).json({ message: 'Employee log in success' });
+      res.redirect('/employee/dashboard');
     } catch (err) {
       res.status(500).json({ error: `${err}` });
     }
   },
 
-  getEmployee: (req, res) => {
-    const empFirstName = req.session.clinic.employee.fName;
-    const empLastName = req.session.clinic.employee.lName;
-    const empFullName = `${empFirstName} ${empLastName}`;
-    console.log(empFullName);
-    res.send(`Welcome ${empFullName}`);
+  getEmployee: async (req, res) => {
+    if(!req.session) {
+      res.redirect('/clinic/dashboard/login');
+      return;
+    }
+    const clinicId = req.session.clinic.id;
+    const clinic = await Clinic.findById(clinicId);
+    const { clinicName } = clinic;
+    const { id, loginTime } = req.session.clinic.employee;
+    const employee = await Employee.findById(id);
+    const { employeeID, firstName, otherName, lastName, role } = employee;
+    const fullName = `${firstName} ${otherName} ${lastName}`;
+    res.render('employeeDashboard', {
+      clinicName,
+      employeeID,
+      fullName,
+      role,
+      loginTime
+    });
   },
 
   postLogOut: (req, res) => {
     if (req.session.clinic && req.session.clinic.employee) {
       delete req.session.clinic.employee;
     }
-    req.session.clinic ? res.redirect('/api/v1/clinic/dashboard') : res.status(500).json({ error: 'Error' });
+    req.session.clinic ? res.redirect('/clinic/dashboard') : res.status(500).json({ error: 'Error' });
   },
 };
 

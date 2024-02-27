@@ -147,8 +147,6 @@
 // script.js 
 
 function solve() {
-	let clinicName =
-	    document.getElementById('name').value;
 	let password = 
 		document.getElementById('password').value; 
 	let repassword = 
