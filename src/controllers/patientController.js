@@ -14,11 +14,16 @@ async function generatePatientCustomId(filter) {
 
 const patientController = {
   postNew: async (req, res) => {
-    const firstName = req.body ? req.body.firstName : null;
-    const lastName = req.body ? req.body.lastName : null;
+    const firstName = req.body ? req.body.first : null;
+    const otherName = req.body ? req.body.middle : null;
+    const lastName = req.body ? req.body.last : null;
     const gender = req.body ? req.body.gender : null;
-    const phoneNumber = req.body ? req.body.phoneNumber : null;
-    const profession = req.body ? req.body.profession : null;
+    const dOB = req.body ? req.body.dob : null;
+
+    const contact = req.body ? req.body.mobile : null;
+    const occupation = req.body ? req.body.occupation : null;
+    const email = req.body ? req.body.email : null;
+    const maritalStatus = req.body ? req.body.marital : null;
     const clinicId = req.session.clinic.id;
     if (!firstName || !lastName) {
       res.status(400).json({ error: 'Patient Name is missing' });
@@ -28,11 +33,11 @@ const patientController = {
       res.status(400).json({ error: 'Choose Gender' });
       return;
     }
-    if (!phoneNumber) {
+    if (!contact) {
       res.status(400).json({ error: 'Patient phoneNumber is missing' });
       return;
     }
-    if (!profession) {
+    if (!occupation) {
       res.status(400).json({ error: 'Patient Profession is missing' });
       return;
     }
@@ -46,8 +51,8 @@ const patientController = {
           { firstName },
           { lastName },
           { gender },
-          { phoneNumber },
-          { profession },
+          { contact },
+          { occupation },
           { clinicId },
         ],
       };
@@ -57,22 +62,27 @@ const patientController = {
           patientID,
           firstName,
           lastName,
+          otherName,
+          dOB,
           gender,
-          phoneNumber,
-          profession,
+          contact,
+          email,
+          maritalStatus,
+          occupation,
           clinicId,
         });
         console.log('new Patient created:', patient.patientID);
-        res.status(201).json({
-          id: patient.patientID,
-          fullName: `${patient.firstName} ${patient.lastName}`,
-        });
+        res.redirect('/employee/dashboard');
       } else {
         res.status(400).json({ error: 'Patient Already exists' });
       }
     } catch (err) {
       res.status(500).json({ error: `${err}` });
     }
+  },
+
+  getPatientForm: (req, res) => {
+    res.render('register_patient');
   },
 
   getShow: async (req, res) => {

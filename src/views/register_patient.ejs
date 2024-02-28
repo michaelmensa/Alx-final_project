@@ -1,0 +1,81 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="ClinicBase">
+
+  <meta name="description" content="" />
+	<meta name="keywords" content="" />
+	
+	<link rel="stylesheet" href="/css/style-reg.css">
+
+  <title>Patient Registration Form</title>
+</head> 
+
+<body> 
+	<div class="main"> 
+		<h1>Register Patient</h1> 
+		<form action="/employee/dashboard/create" method="post"> 
+			<label for="first">First Name:</label> 
+			<input type="text" id="first"
+				name="first"
+				placeholder="Enter patient first name" required> 
+
+			<label for="last">Middle Name:</label>
+			<input type="text" id="middle"
+				name="middle"
+				placeholder="Enter patient middle name">
+				
+			<label for="last">Last Name:</label> 
+			<input type="text" id="last"
+				name="last"
+				placeholder="Enter patient last name" required>  
+
+			<label for="dob">Date of Birth:</label> 
+			<input type="date"
+				id="dob" name="dob"
+				placeholder="Enter patient DOB" required> 
+			
+			<label for="gender">Gender:</label> 
+			<select id="gender" name="gender" required> 
+				<option value="male">Male</option> 
+				<option value="female">Female</option> 
+				<option value="other">Other</option> 
+			</select> 
+
+			<label for="marital">Marital Status:</label> 
+			<select id="marital" name="marital" required> 
+				<option value="single">Single</option> 
+				<option value="married">Married</option> 
+				<option value="divorced">Divorced</option>
+				<option value="widowed">Widowed</option> 
+			</select> 
+
+			<label for="occupation">Occupation:</label> 
+			<input type="text" id="occupation"
+				name="occupation"
+				placeholder="Enter patient occupation" required>
+
+			<label for="email">Email:</label> 
+			<input type="email" id="email"
+				name="email"
+				placeholder="Enter patient email">
+			
+			<label for="mobile">Contact:</label> 
+			<input type="text" id="mobile"
+				name="mobile"
+				placeholder="Enter patient Mobile Number" required 
+				maxlength="10">
+
+			<div class="wrap"> 
+				<button type="submit" onclick="solve()"> 
+				Submit 
+				</button> 
+			</div> 
+		</form> 
+	</div> 
+	<script src="/js/script.js"></script> 
+</body> 
+
+</html>

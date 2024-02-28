@@ -37,7 +37,10 @@ router.get('/employee/dashboard/patientstats', PatientController.getStats);
 router.get('/employee/dashboard/checkInStats', PatientCheckInController.getCheckInStats);
 router.get('/employee/dashboard/patients', PatientController.getIndex);
 router.get('/employee/dashboard/patients/:id', PatientController.getShow);
-router.post('/employee/dashboard/createpatient', PatientController.postNew);
+// get /employee/dashboard/create to get add patient form
+router.get('/employee/dashboard/create', PatientController.getPatientForm);
+// post /emplpyee/dashboard/create to create new patient
+router.post('/employee/dashboard/create', PatientController.postNew);
 // post /employee/dashboard/logout to log out clinic
 router.post('/employee/dashboard/logout', EmpController.postLogOut);
 
