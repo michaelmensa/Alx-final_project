@@ -1,7 +1,6 @@
-import CheckIn from '../config/Schema/checkIn';
 import Patient from '../config/Schema/patient';
 import Examination from '../config/Schema/examination';
-
+import utils from '../utils/utils';
 /**
  * examController contains:
  * GET examform to get examination form to be filled.
@@ -11,64 +10,24 @@ import Examination from '../config/Schema/examination';
 
 const examController = {
   getExamForm: async (req, res) => {
-    const { checkInId } = req.params;
-    const clinicId = req.session.clinic.id;
-    try {
-      const checkIn = await CheckIn.findById(checkInId);
-      if (!checkIn) {
-        res.status(400).json({ error: 'Patient not checkedIn' });
-        return;
-      }
-      const { patient } = checkIn;
-      const checkedInPatient = await Patient.findById(patient);
-      if (!checkedInPatient || checkedInPatient.clinicId !== clinicId) {
-        res.status(400).json({ error: 'Patient not found' });
-        return;
-      }
-      const results = `Exam form for ${checkedInPatient.patientID}: ${checkedInPatient.firstName} ${checkedInPatient.lastName}`;
-      res.send(results);
-    } catch (err) {
-      res.status(500).json({ error: `cant get form: ${err}` });
-    }
+    res.render('examForm');
   },
 
   postExamForm: async (req, res) => {
-    const { checkInId } = req.params;
-    const visualAcuityExam = req.body.visualAcuityExam || null;
-    const medicalExam = req.body.medicalExam || null;
-    const anteriorExam = req.body.anteriorExam || null;
-    const posteriorExam = req.body.posteriorExam || null;
-    const refraction = req.body.refraction || null;
-    const { diagnosis } = req.body;
-    const medication = req.body.medication || null;
-    const lensRx = req.body.lensRx || null;
-    if (!checkInId) {
-      res.status(400).json({ error: 'Patient not checked in' });
-      return;
-    }
+   const { examination, patientID } = req.body;
 
-    if (!diagnosis) {
-      res.status(404).json({ error: 'Diagnosis cannot be empty' });
+    if (!examination) {
+      res.status(404).json({ error: 'Examination cannot be empty' });
       return;
     }
     try {
-      const checkIn = await CheckIn.findById(checkInId);
-      if (!checkIn) {
-        res.status(404).json({ error: 'CheckIn Not found' });
-      }
-      const examination = await Examination.create({
-        visualAcuityExam,
-        medicalExam,
-        anteriorExam,
-        posteriorExam,
-        refraction,
-        diagnosis,
-        medication,
-        lensRx,
+      const exam = await Examination.create({
+        examination,
       });
-      checkIn.examination = examination;
-      console.log(checkIn.examination);
-      await checkIn.save();
+      const patient = await Patient.findOne({ patientID });
+      patient.examinations = exam;
+      console.log(patient.examinations);
+      await patient.save();
 
       res.send('Exams Done');
     } catch (err) {

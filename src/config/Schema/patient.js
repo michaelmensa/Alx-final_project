@@ -24,9 +24,9 @@ const patientSchema = new mongoose.Schema({
   contact: String,
   occupation: String,
   clinicId: String,
-  checkIns: [{
+  examinations: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'CheckIn',
+    ref: 'Examination',
   }],
 }, { timestamps: true });
 

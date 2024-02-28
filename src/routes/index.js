@@ -8,7 +8,6 @@ const AppController = require('../controllers/appController');
 const ClinicController = require('../controllers/clinicController');
 const EmpController = require('../controllers/empController');
 const PatientController = require('../controllers/patientController');
-const PatientCheckInController = require('../controllers/checkInController');
 const ExamController = require('../controllers/examController');
 
 // router.use('/clinic') requires clinic login
@@ -34,7 +33,6 @@ router.post('/clinic/dashboard/logout', AppController.postLogOut);
 router.use('/employee', middleware.requireEmployeeLogin);
 router.get('/employee/dashboard', EmpController.getEmployee);
 router.get('/employee/dashboard/patientstats', PatientController.getStats);
-router.get('/employee/dashboard/checkInStats', PatientCheckInController.getCheckInStats);
 router.get('/employee/dashboard/patients', PatientController.getIndex);
 router.get('/employee/dashboard/patients/:id', PatientController.getShow);
 // get /employee/dashboard/create to get add patient form
@@ -46,12 +44,11 @@ router.post('/employee/dashboard/logout', EmpController.postLogOut);
 
 // routes for checking in a patient and examination. both requires employee login
 router.use('/patients', middleware.requireEmployeeLogin);
-router.get('/patients/:id/checkins', PatientCheckInController.getCheckInShow);
-router.get('/patients/checkins', PatientCheckInController.getCheckInIndex);
-router.post('/patients/:id/checkins', PatientCheckInController.postNewCheckIn);
-// get /patients/:checkInId/exams
-router.get('/patients/:checkInId/exams', ExamController.getExamForm);
-router.post('/patients/:checkInId/exams', ExamController.postExamForm);
+router.get('/patients', PatientController.getPatients);
+// post /patients/:id
+router.post('/patients/examform', ExamController.postExamForm);
+// get /patients/:id
+router.get('/patients/examform', ExamController.getExamForm);
 
 // routes that are not protected
 // get /home

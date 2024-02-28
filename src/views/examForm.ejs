@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Examination</title>
+</head>
+<body>
+    <div class="container">
+        <form action="/patients/examform" method="POST">
+            <!-- Hidden input fields for patient details -->
+            <input type="hidden" id="patientID" name="patientID">
+            <label for="examination">Examination:</label>
+            <textarea id="examination" name="examination" rows="10" cols="50" required></textarea>
+      
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+<script>
+  // Retrieve patient information from query parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const patientID = urlParams.get('patientID');
+  const firstName = urlParams.get('firstName');
+  const lastName = urlParams.get('lastName');
+
+  // Display patient information
+  const patientInfoDiv = document.createElement('div');
+  patientInfoDiv.innerHTML = `
+    <h2>Patient Information</h2>
+    <p>Patient ID: ${patientID}</p>
+    <p>Name: ${firstName} ${lastName}</p>
+  `;
+  document.body.appendChild(patientInfoDiv);
+
+  // Populate hidden input fields with patient details
+  document.getElementById('patientID').value = patientID;
+</script>     
+</script>
+</body>
+</html>

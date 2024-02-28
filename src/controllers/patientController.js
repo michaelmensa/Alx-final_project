@@ -1,4 +1,5 @@
 import Patient from '../config/Schema/patient';
+import utils from '../utils/utils';
 
 /**
  * generatePatientCustomId
@@ -34,11 +35,11 @@ const patientController = {
       return;
     }
     if (!contact) {
-      res.status(400).json({ error: 'Patient phoneNumber is missing' });
+      res.status(400).json({ error: 'Patient contact is missing' });
       return;
     }
     if (!occupation) {
-      res.status(400).json({ error: 'Patient Profession is missing' });
+      res.status(400).json({ error: 'Patient occupation is missing' });
       return;
     }
 
@@ -105,12 +106,12 @@ const patientController = {
 
   getIndex: async (req, res) => {
     // get patient and if query, get by patientID, firstName or,
-    // lastName or gender or phoneNumber
+    // lastName or gender or contact
     // and page number for pagination
     try {
       // Extract query parameters
       const {
-        patientID, firstName, lastName, page, phoneNumber, gender, profession,
+        patientID, firstName, lastName, page, contact, gender, occupation,
       } = req.query;
 
       // Define query conditions based on clinicId
@@ -122,9 +123,9 @@ const patientController = {
       if (patientID) orConditions.push({ patientID });
       if (firstName) orConditions.push({ firstName });
       if (lastName) orConditions.push({ lastName });
-      if (phoneNumber) orConditions.push({ phoneNumber });
+      if (contact) orConditions.push({ contact });
       if (gender) orConditions.push({ gender });
-      if (profession) orConditions.push({ profession });
+      if (occupation) orConditions.push({ occupation });
 
       if (orConditions.length > 0) {
         queryConditions.$or = orConditions;
@@ -142,8 +143,14 @@ const patientController = {
       const results = patients.map((patient) => ({
         id: patient.patientID,
         name: `${patient.firstName} ${patient.lastName}`,
+        age: utils.calculateAge(patient.dOB) + 'years',
+        gender: patient.gender,
+        occupation: patient.occupation,
+        contact: `${patient.contact}`
       }));
-      res.status(200).json(results);
+      res.render('patients', {
+        results,
+      });
     } catch (err) {
       console.error('Failed to get patients:', err);
       res.status(500).json({ error: 'Failed to get patients' });
@@ -160,6 +167,25 @@ const patientController = {
     } catch (err) {
       console.log('Failed to retrieve employee count', err);
       res.status(500).json({ error: 'Failed' });
+    }
+  },
+
+  // gets checkin with query params
+  getPatients: async (req, res) => {
+    try {
+      const clinicId = req.session.clinic.id;
+      const queryString = req.queryString;
+      const regex = new RegExp(queryString, 'i');
+      const filter = { clinicId, $or: [
+        { firstName: { $regex: regex } },
+        { lastName: { $regex: regex } },
+      ] }
+      const patients = await Patient.find(filter);
+      console.log(patients);
+      res.json(patients);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: `error searching patient ${err}` });
     }
   },
 };
