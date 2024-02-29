@@ -1,3 +1,4 @@
+import Examination from '../config/Schema/examination';
 import Patient from '../config/Schema/patient';
 import utils from '../utils/utils';
 
@@ -157,17 +158,40 @@ const patientController = {
     }
   },
 
+  // getStats: endpoint to retrieve number of patients registered
+  // a particular day and number of examinations done
   getStats: async (req, res) => {
-    const clinicId = req.session.clinic.id;
-    try {
-      const patientCount = await Patient.countDocuments({ clinicId });
-      res.status(200).json({
-        Patients: patientCount,
-      });
-    } catch (err) {
-      console.log('Failed to retrieve employee count', err);
-      res.status(500).json({ error: 'Failed' });
-    }
+  const clinicId = req.session.clinic.id;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+
+  try {
+    const patientCount = await Patient.countDocuments({
+      clinicId: clinicId,
+      createdAt: {
+        $gte: today, // Greater than or equal to the start of the day
+        $lt: tomorrow, // Less than the start of the next day
+      },
+    });
+    console.log(patientCount);
+    const examCount = await Examination.countDocuments({
+      clinicId: clinicId,
+      createdAt: {
+        $gte: today, // Greater than or equal to the start of the day
+        $lt: tomorrow, // Less than the start of the next day
+      },
+    });
+    console.log(examCount);  
+
+    res.status(200).json({
+      Patients: patientCount,
+      Examination: examCount,
+    });
+  } catch (err) {
+    console.log('Failed to retrieve patient and exam count', err);
+    res.status(500).json({ error: 'Failed' });
+  }
   },
 
   // gets checkin with query params

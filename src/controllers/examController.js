@@ -28,16 +28,30 @@ const examController = {
   },
 
   postExamForm: async (req, res) => {
+    const clinicId = req.session.clinic.id;
     const patientId = req.params.id;
-   const { examination } = req.body;
+   const { 
+    complaint,
+    va,
+    antExam,
+    postExam,
+    refraction,
+    diagnosis,
+    medication,
+    lens
+    } = req.body;
 
-    if (!examination) {
-      res.status(404).json({ error: 'Examination cannot be empty' });
-      return;
-    }
     try {
       const exam = await Examination.create({
-        examination,
+        clinicId,
+        complaint,
+        va,
+        antExam,
+        postExam,
+        refraction,
+        diagnosis,
+        medication,
+        lens
       });
       const patient = await Patient.findById(patientId);
       patient.examinations.push(exam);

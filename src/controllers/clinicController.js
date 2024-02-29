@@ -75,7 +75,7 @@ const clinicController = {
     try {
       const clinic = await Clinic.findOne({ clinicEmail });
       if (!clinic) {
-        res.status(404).json({ error: 'Not found' });
+        res.render('custom404Clinic');
         return;
       }
       const isValid = utils.checkPassword(clinicPassword, clinic.clinicPassword);
@@ -97,6 +97,10 @@ const clinicController = {
     } catch (err) {
       res.status(500).json({ error: `${err}` });
     }
+  },
+
+  getTryAgain: (req, res) => {
+    res.redirect('/login');
   },
 
   // gets clinic dashboard

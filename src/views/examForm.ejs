@@ -3,25 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/exams.css">
     <title>Patient Examination</title>
 </head>
 <body>
     <div class="container">
-        <div class="patient-details" id="patient-details">
-            <span><%= PatientID %></span>
-            <span><%= Name %></span>
-            <span><%= Age %></span>
-            <span><%= Gender %></span>
-            <span><%= Occupation %></span>
-            <span><%= Contact %></span>
+        <header>Patient Examination</header><br>
+        <div class="container">
+            <div class="patient-details" id="patient-details">
+            <p>PatientID: <span><%= PatientID %></span></p>
+            <p>Name: <span><%= Name %></span></p>
+            <p>Age: <span><%= Age %></span></p>
+            <p>Gender: <span><%= Gender %></span></p>
+            <p>Occupation: <span><%= Occupation %></span></p>
+            <p>Contact: <span><%= Contact %></span></p> <br>  
+            </div>
         </div>
-        <form action="" method="POST" id="examForm">
+
+        <form action="" method="post" id="examForm">
             <!-- Hidden input fields for patient details -->
             <input type="hidden" id="patientID" name="patientID" value="<%= Id %>">
-            <label for="examination">Examination:</label>
-            <textarea id="examination" name="examination" rows="10" cols="50" required></textarea>
-      
-            <button type="submit">Submit</button>
+            <div class="form-first">
+                <div class="exam-field">
+                    <span class="title">Presenting Complaints</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <textarea id="complaint" name="complaint" rows="10" cols="50"  placeholder="Enter patient complaints here"></textarea>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-first">
+                <div class="exam-field">
+                    <span class="title">Visual Acuity</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <textarea id="va" name="va" rows="10" cols="50"  placeholder="Enter patient visual acuity"></textarea>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-first">
+                <div class="exam-field">
+                    <span class="title">Anterior Examination</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <textarea id="antExam" name="antExam" rows="10" cols="50"  placeholder="Enter Anterior examination"></textarea>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-first">
+                <div class="exam-field">
+                    <span class="title">Posterior Examination</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <textarea id="postExam" name="postExam" rows="10" cols="50"  placeholder="Enter Posterior Examination here"></textarea>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-first">
+                <div class="exam-field">
+                    <span class="title">Refraction</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <textarea id="refraction" name="refraction" rows="10" cols="50"  placeholder="Enter Refraction results here"></textarea>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-first">
+                <div class="exam-field">
+                    <span class="title">Diagnosis</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <textarea id="diagnosis" name="diagnosis" rows="10" cols="50"  placeholder="Enter diagnosis here"></textarea>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-first">
+                <div class="exam-field">
+                    <span class="title">Medication</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <textarea id="medication" name="medication" rows="10" cols="50"  placeholder="Enter medication here "></textarea>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-first">
+                <div class="exam-field">
+                    <span class="title">Lens Prescription</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <textarea id="lens" name="lens" rows="10" cols="50"  placeholder="Enter lens Prescription"></textarea>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+            <div class="buttons">
+                <button id="exam-btn" type="submit" onclick="alert('Examination Done!')">
+                    Submit
+                </button>
+                <button id="exam-btn" type="reset">Reset</button>
+            </div>
+        
         </form>
     </div>
     <script>

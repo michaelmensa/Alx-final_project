@@ -160,7 +160,7 @@ const empController = {
     try {
       const employee = await Employee.findOne({ email });
       if (!employee) {
-        res.status(404).json({ error: 'Not found' });
+        res.render('custom404Employee');
         return;
       }
       const isValid = utils.checkPassword(password, employee.password);

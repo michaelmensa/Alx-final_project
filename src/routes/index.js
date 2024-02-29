@@ -32,7 +32,7 @@ router.post('/clinic/dashboard/logout', AppController.postLogOut);
 // router.use('/employee/dashboard') all requires employee login
 router.use('/employee', middleware.requireEmployeeLogin);
 router.get('/employee/dashboard', EmpController.getEmployee);
-router.get('/employee/dashboard/patientstats', PatientController.getStats);
+router.get('/employee/dashboard/stats', PatientController.getStats);
 router.get('/employee/dashboard/patients', PatientController.getIndex);
 router.get('/employee/dashboard/patients/:id', PatientController.getShow);
 // get /employee/dashboard/create to get add patient form
@@ -77,5 +77,8 @@ router.post('/register', ClinicController.postNew);
 router.post('/login', ClinicController.postClinic);
 // post /patients to create patients
 router.post('/patients', PatientController.postNew);
+
+// get /tryagain
+router.get('/tryagain', ClinicController.getTryAgain);
 
 module.exports = router;
