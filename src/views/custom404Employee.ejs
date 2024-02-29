@@ -1,0 +1,34 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="ClinicBase">
+
+  <meta name="description" content="" />
+	<meta name="keywords" content="" />
+	
+	<link rel="stylesheet" href="/css/style-reg.css">
+
+  <title>Employee Login Form</title>
+</head> 
+
+<body> 
+	<div class="main"> 
+		<h1>Employee Not Found</h1> 
+		<div class="wrap"> 
+			<button type="button" id="employeeLoginButton"> 
+			Try Again
+			</button> 
+		</div> 
+	</div> 
+	<script>
+		// Function to redirect to the employee login page
+		function redirectToEmployeeLoginPage() {
+    	window.location.href = '/clinic/dashboard/login';
+  		}
+  		// Add event listener to the button
+  		document.getElementById('employeeLoginButton').addEventListener('click', redirectToEmployeeLoginPage);
+	</script> 
+</body> 
+</html>

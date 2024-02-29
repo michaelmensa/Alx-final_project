@@ -1,0 +1,33 @@
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+  }
+  .search-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .search-bar {
+    width: 80%;
+    padding: 8px;
+    margin-right: 10px;
+  }
+  .button {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  .search-results {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  .result-item {
+    margin-bottom: 10px;
+  }
+  .result-buttons {
+    margin-top: 5px;
+  }

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styles.css">
+  <title><%= clinicName %> - <%= role %></title>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><%= clinicName %> | <%= role %> Dashboard</h1>
+    </div>
+   <!--  <h1 class="mheader"><%= clinicName %></h1> -->
+    <div class="menu">
+      <ul>
+        <div class="menu1">
+          <li><a href="/employee/dashboard/create" class="menu-item">New Patient</a></li>
+          <li><a href="/employee/dashboard/patients" class="menu-item">Patients Directory</a></li>
+          <li><a href="/employee/dashboard/patients" class="menu-item">Exam Form</a></li>
+          <!-- <li><a href="lens_inventory.html" class="menu-item"></a></li> -->
+          <li><a href="clinic_metrics.html" class="menu-item">Drugs Inventory</a></li>
+          <!-- <li><a href="search_patient.html" class="menu-item">Search Patient</a></li>
+          <li><a href="examination.html" class="menu-item">Examination</a></li> -->
+        </div>
+        <div class="menu2">
+            <button class="cta-button" id="refresh-btn">REFRESH</button>
+            <li>PATIENT REGISTERED<span class="two" id="total-patients"></span></li>
+            <li>PATIENT EXAMINED<span class="two" id="total-patients-examined"></span></li>
+        </div>
+      </ul>
+    </div>
+    <div class="status-bar active">
+        <div class="details">
+            <span>Status Bar:</span>
+            <span><li style="color: rgb(62, 250, 62);">Active</li></span>
+        </div>
+        <div class="details">
+          <span>Name:</span>
+          <span><%= fullName %></span>
+        </div>
+        <div class="details">
+          <span>Login Time:</span>
+          <span><%= loginTime %></span>
+        </div>
+        <div id="logout">
+          <button class="button" id="employee-logout">
+              Logout
+          </button>
+      </div> 
+      </div>
+  </div>
+  <script src="/js/employeeDashboardScript.js"></script>
+</body>
+</html>

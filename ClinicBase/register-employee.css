@@ -1,0 +1,55 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  padding: 1em;
+}
+
+section {
+  margin: 20px;
+}
+
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input, select {
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#patientDetails {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 1em;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
