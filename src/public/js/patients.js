@@ -25,7 +25,7 @@
         examButton.textContent = 'Exam Form';
         examButton.addEventListener('click', () => {
             // Redirect to a new page with patient information in query parameters
-            const patientInfoUrl = `/patients/examform?patientID=${patient.patientID}&firstName=${patient.firstName}&lastName=${patient.lastName}`;
+            const patientInfoUrl = `/patients/${patient._id}`;
             window.location.href = patientInfoUrl;
         });
             

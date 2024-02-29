@@ -46,9 +46,9 @@ router.post('/employee/dashboard/logout', EmpController.postLogOut);
 router.use('/patients', middleware.requireEmployeeLogin);
 router.get('/patients', PatientController.getPatients);
 // post /patients/:id
-router.post('/patients/examform', ExamController.postExamForm);
+router.post('/patients/:id', ExamController.postExamForm);
 // get /patients/:id
-router.get('/patients/examform', ExamController.getExamForm);
+router.get('/patients/:id', ExamController.getExamForm);
 
 // routes that are not protected
 // get /home

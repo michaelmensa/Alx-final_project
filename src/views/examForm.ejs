@@ -7,34 +7,28 @@
 </head>
 <body>
     <div class="container">
-        <form action="/patients/examform" method="POST">
+        <div class="patient-details" id="patient-details">
+            <span><%= PatientID %></span>
+            <span><%= Name %></span>
+            <span><%= Age %></span>
+            <span><%= Gender %></span>
+            <span><%= Occupation %></span>
+            <span><%= Contact %></span>
+        </div>
+        <form action="" method="POST" id="examForm">
             <!-- Hidden input fields for patient details -->
-            <input type="hidden" id="patientID" name="patientID">
+            <input type="hidden" id="patientID" name="patientID" value="<%= Id %>">
             <label for="examination">Examination:</label>
             <textarea id="examination" name="examination" rows="10" cols="50" required></textarea>
       
             <button type="submit">Submit</button>
         </form>
     </div>
-<script>
-  // Retrieve patient information from query parameters
-  const urlParams = new URLSearchParams(window.location.search);
-  const patientID = urlParams.get('patientID');
-  const firstName = urlParams.get('firstName');
-  const lastName = urlParams.get('lastName');
-
-  // Display patient information
-  const patientInfoDiv = document.createElement('div');
-  patientInfoDiv.innerHTML = `
-    <h2>Patient Information</h2>
-    <p>Patient ID: ${patientID}</p>
-    <p>Name: ${firstName} ${lastName}</p>
-  `;
-  document.body.appendChild(patientInfoDiv);
-
-  // Populate hidden input fields with patient details
-  document.getElementById('patientID').value = patientID;
-</script>     
-</script>
+    <script>
+       // Set form action URL dynamically
+        const form = document.getElementById('examForm');
+        const patientId = form.getElementById('patientID').value;
+        form.action = `/patients/${patientId}`;
+    </script>
 </body>
 </html>
