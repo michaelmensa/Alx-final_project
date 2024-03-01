@@ -1,5 +1,6 @@
+# CLINICBASE
 
-<div align="center"><img src="dashboards/static/images/Logo.png" alt="Logo" width="80" height="80"> </div>
+<div align="center"><img src="src/views/favicon.png" alt="Logo" width="80" height="80"> </div>
 
 
 ## Table of Contents
