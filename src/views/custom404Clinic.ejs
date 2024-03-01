@@ -1,0 +1,44 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="ClinicBase">
+
+  <meta name="description" content="" />
+	<meta name="keywords" content="" />
+	
+	<link rel="stylesheet" href="/css/style-reg.css">
+
+  <title>Employee Login Form</title>
+</head> 
+
+<body> 
+	<div class="main"> 
+		<h1>Clinic Not Found</h1> 
+		<div class="wrap"> 
+			<button type="submit" id="loginButton"> 
+			Try Again
+			</button> 
+		</div> 
+	</div> 
+	<script>
+		// Add event listener to the button
+		document.getElementById('loginButton').addEventListener('click', async () => {
+			await fetch('/', {
+				method: 'GET',
+				credentials: 'same-origin'
+			})
+			.then(res => {
+				if (!res.ok) {
+				throw new Error('Could not reload login page');
+				}
+				return res;
+			})
+			.catch(err => {
+			console.error('difficulty fetching url', err);
+			});
+		});
+	</script> 
+</body> 
+</html>

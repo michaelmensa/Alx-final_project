@@ -1,3 +1,4 @@
+
 <div align="center"><img src="dashboards/static/images/Logo.png" alt="Logo" width="80" height="80"> </div>
 
 
@@ -145,3 +146,5 @@ If you have any questions, feedback, or need further information, please contact
 
 
 **Note**: This project is currently limited to eye clinics. Future developments may extend the application functionality to include other clinical setups.
+
+

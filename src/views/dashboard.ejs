@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styles.css">
+  <title><%= clinicName %> - Dashboard</title>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><%= clinicName %> Dashboard</h1>
+      <ul class="js-clone-nav d-none d-lg-inline-block text-end site-menu float-end">
+        <li class="cta-button"><a href="/clinic/dashboard/login">Employee Login</a></li>
+      </ul>
+    </div>
+    <h1 class="mheader"><%= clinicName %></h1>
+    <div class="menu">
+      <ul>
+        <div class="menu1">
+          <li><a href="/clinic/dashboard/create" class="menu-item">Add New Employee</a></li>
+          <li><a href="search_employee.html" class="menu-item">Search Employee</a></li>
+          <li><a href="drugs_inventory.html" class="menu-item">Drugs Inventory</a></li>
+          <li><a href="lens_inventory.html" class="menu-item">Lens Inventory</a></li>
+          <li><a href="clinic_metrics.html" class="menu-item">Clinic Metrics</a></li>
+          <!-- <li><a href="search_patient.html" class="menu-item">Search Patient</a></li>
+          <li><a href="examination.html" class="menu-item">Examination</a></li> -->
+        </div>
+        <div class="menu2">
+            <button class="cta-button" id="refresh-btn">REFRESH</button>
+            <li>EMPLOYEE COUNT<span class="two" id="total-employees"></span></li>
+            <li>PATIENT COUNT<span class="two" id="total-patients"></span></li>
+        </div>
+      </ul>
+    </div>
+    <div class="status-bar active">
+        <div class="details">
+            <span>Status Bar:</span>
+            <span><li style="color: rgb(62, 250, 62);">Active</li></span>
+        </div>
+        <div class="details">
+          <span>Name:</span>
+          <span><%= clinicName %></span>
+        </div>
+        <div class="details">
+          <span>contact:</span>
+          <span><%= contact %></span>
+        </div>
+        <div class="details">
+          <span>Login Time:</span>
+          <span><%= loginTime %></span>
+        </div>
+        <div class="details">
+          <span>Location:</span>
+          <span><%= location %></span>
+        </div>
+        <div id="logout">
+          <button class="button" id="clinic-logout">
+              Logout
+          </button>
+      </div> 
+      </div>
+  </div>
+  <script src="/js/clinicDashboardScript.js"></script>
+</body>
+</html>
