@@ -40,7 +40,7 @@ To get started with the Eye Clinic Database Management System, follow these step
 
 ### Prerequisites
 
-- Nodejs
+- Nodejs -version > 14.x
 - MongoDB
 
 
