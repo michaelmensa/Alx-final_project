@@ -62,11 +62,11 @@ const clinicController = {
 
     // validate email and password
     if (!clinicEmail) {
-      res.status(400).json({ error: 'email required' });
+      res.status(401).json({ error: 'email required' });
       return;
     }
     if (!clinicPassword) {
-      res.status(400).json({ error: 'password required' });
+      res.status(401).json({ error: 'password required' });
       return;
     }
 
@@ -75,7 +75,7 @@ const clinicController = {
     try {
       const clinic = await Clinic.findOne({ clinicEmail });
       if (!clinic) {
-        res.status(404);
+        res.status(401).json({ error: 'Clinic not found' });
         return;
       }
       const isValid = utils.checkPassword(clinicPassword, clinic.clinicPassword);
