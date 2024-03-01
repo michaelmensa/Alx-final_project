@@ -75,7 +75,7 @@ const clinicController = {
     try {
       const clinic = await Clinic.findOne({ clinicEmail });
       if (!clinic) {
-        res.render('custom404Clinic');
+        res.status(404);
         return;
       }
       const isValid = utils.checkPassword(clinicPassword, clinic.clinicPassword);
