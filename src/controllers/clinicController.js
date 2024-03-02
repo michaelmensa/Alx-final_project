@@ -17,20 +17,21 @@ const clinicController = {
       return;
     }
     if (!clinicEmail) {
-      res.status(400).json({ error: 'Clinic Email is missing' });
+      res.status(401).json({ error: 'Clinic Email is missing' });
       return;
     }
     if (!password) {
-      res.status(400).json({ error: 'Clinic Password is missing' });
+      res.status(401).json({ error: 'Clinic Password is missing' });
       return;
     }
     if (!retypePassword) {
-      res.status(400).json({ error: 'retypePassword is missing' });
+      res.status(401).json({ error: 'retypePassword is missing' });
       return;
     }
 
     if (password !== retypePassword) {
-      res.json('Passwords do not match');
+      res.status(401).json({ error: 'Passwords do not match'} );
+      return;
     }
 
     const clinicPassword = utils.hashPassword(password);
