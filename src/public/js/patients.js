@@ -2,10 +2,10 @@
     e.preventDefault();
 
     const queryString = document.getElementById('search-string').value;
-    const queryParams = new URLSearchParams({ queryString });
+    const queryOption = document.querySelector('input[name="search-options"]:checked').value;
 
     try {
-        const response = await fetch(`/patients/?${queryParams}`);
+        const response = await fetch(`/patients?${queryOption}=${queryString}`);
         if (!response.ok) {
             throw new Error('Could not fetch from api');
         }
@@ -14,6 +14,11 @@
         const searchResultsDiv = document.getElementById('search-results');
         searchResultsDiv.innerHTML = ''; // Clear previous results
 
+        if (patients.length === 0) {
+            const noResultsMessage = document.createElement('p');
+            noResultsMessage.textContent = 'No patients found.';
+            searchResultsDiv.appendChild(noResultsMessage);
+        }
         patients.forEach(patient => {
         const patientInfo = document.createElement('div');
 

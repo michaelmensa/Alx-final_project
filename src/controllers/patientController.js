@@ -198,12 +198,18 @@ const patientController = {
   getPatients: async (req, res) => {
     try {
       const clinicId = req.session.clinic.id;
-      const queryString = req.queryString;
-      const regex = new RegExp(queryString, 'i');
-      const filter = { clinicId, $or: [
-        { firstName: { $regex: regex } },
-        { lastName: { $regex: regex } },
-      ] }
+      const queryString = req.query.queryString || null;
+      const queryOption = req.query.queryOption || null;
+      const filter = { clinicId };
+      // If both queryString and queryOption are provided, add them to the filter
+      if (queryString && queryOption) {
+          const regex = new RegExp(queryString, 'i');
+          filter[queryOption] = { $regex: regex };
+      } else if (queryString) {
+          // If only queryString is provided, search across all fields
+          const regex = new RegExp(queryString, 'i');
+          filter.$or = Object.keys(Patient.schema.paths).filter(key => key !== '_id' && key !== '__v').map(key => ({ [key]: { $regex: regex } }));
+      }
       const patients = await Patient.find(filter);
       console.log(patients);
       res.json(patients);
